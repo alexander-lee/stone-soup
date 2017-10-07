@@ -16,101 +16,92 @@
 }
 
 .menuItemContainer {
-    width: 60%;
-    margin: 20px auto;
-
+  width: 60%;
+  margin: 20px auto;
 }
 
 .menuItem {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 
-    height: 60px;
-    margin: 10px auto;
-    border: 1px solid $light-gray;
-    border-radius: 5px;
+  height: 60px;
+  margin: 10px auto;
+  border: 1px solid $light-gray;
+  border-radius: 5px;
 
-    .name {
-        background-color: $green;
-        width: 50%;
-        height: 100%;
-        border-radius: 5px 0 0 5px;
-        line-height: 60px;
-        text-align: center;
-    }
+  .name {
+    background-color: $green;
+    width: 50%;
+    height: 100%;
+    border-radius: 5px 0 0 5px;
+    line-height: 60px;
+    text-align: center;
+  }
 
-    .servings {
-        background-color: $white;
-        width: 50%;
-        height: 100%;
-        border-radius: 0 5px 5px 0;
-    }
+  .servings {
+    background-color: $white;
+    width: 50%;
+    height: 100%;
+    border-radius: 0 5px 5px 0;
+  }
 
 
-    .deleteButton {
-        position: relative;
-        bottom: 59px;
-        left: 96.5%;
-        z-index: 2;
-        background-color: $white;
-        font-size: rem(20px);
-        border-radius: 60%;
-        opacity: 0;
-        transition: all 200ms ease-in-out;
-
-        &:hover {
-            font-size: rem(22px);
-        }
-    }
-
-    input {
-        height: 100%;
-        width: 100%;
-        border: 0;
-        margin: 0;
-        padding: 0;
-        border-radius: 5px;
-        outline: none;
-        text-align: center;
-        font-size: 16px;
-
-        &:hover, &:active {
-            outline: none;
-        }
-    }
+  .deleteButton {
+    position: relative;
+    bottom: 59px;
+    left: 96.5%;
+    z-index: 2;
+    background-color: $white;
+    font-size: rem(20px);
+    border-radius: 60%;
+    opacity: 0;
+    transition: all 200ms ease-in-out;
 
     &:hover {
-        cursor: pointer;
-        transform: translate3d(-0.5px, -3px, 0px);
-        box-shadow: 1px 3px 5px 0px $light-gray;
-
-        &::after {
-            opacity: 0.15;
-        }
-
-        .deleteButton {
-            opacity: 1;
-        }
-
+      font-size: rem(22px);
     }
-}
+  }
 
-.saveButtonContainer {
-    
+  input {
+    height: 100%;
+    width: 100%;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    border-radius: 5px;
+    outline: none;
+    text-align: center;
+    font-size: 16px;
+
+    &:hover, &:active {
+      outline: none;
+    }
+  }
+
+  &:hover {
+    cursor: pointer;
+    transform: translate3d(-0.5px, -3px, 0px);
+    box-shadow: 1px 3px 5px 0px $light-gray;
+
+    &::after {
+      opacity: 0.15;
+    }
+
+    .deleteButton {
+      opacity: 1;
+    }
+  }
 }
 
 .saveButton {
-    width: 100px;
-    height: 40px;
-    margin: 0 auto;
-    cursor: pointer;
-    background-color: $green;
-    letter-spacing: 0.5px;
-    text-align: center;
-    border-radius: 2px;
-    border: none;
+  width: 100px;
+  height: 40px;
+  margin: 0 auto;
+  cursor: pointer;
+  background-color: $green;
+  letter-spacing: 0.5px;
+  text-align: center;
+  border-radius: 2px;
+  border: none;
 }
-
-
-
