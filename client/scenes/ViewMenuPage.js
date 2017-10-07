@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Navbar from '../components/Navbar';
 import MenuItem from '../components/MenuItem';
 import s from '../styles/Menu.scss';
 
-class MenuPage extends Component {
-
+class ViewMenuPage extends Component {
+    // fake data for now
     static defaultProps = {
         menuItems: [
             {
@@ -41,13 +40,9 @@ class MenuPage extends Component {
 
     handleClick = () => {
         // this.props.router.push('/menu/edit');
-        this.setState({
-            isEditable: !this.state.isEditable,
+        this.setState((oldState) => {
+            isEditable: !oldState.isEditable,
         });
-    };
-
-    handleEditProfile = () => {
-        this.props.router.push('/profile/edit');
     };
 
     renderMenuItems = () => {
@@ -65,8 +60,6 @@ class MenuPage extends Component {
     render() {
         return (
             <div>
-                <Navbar handleEditProfile={this.handleEditProfile}/>
-                <p>Menu Page</p>
                 <div className={s.menuItemContainer}>
                         { this.renderMenuItems() }
                 </div>
@@ -78,5 +71,4 @@ class MenuPage extends Component {
     }
 }
 
-export default MenuPage;
-
+export default ViewMenuPage;

@@ -23,7 +23,7 @@ const Navbar = ({ handleEditProfile }) => {
 }
 
 Navbar.propTypes = {
-    router: PropTypes.object.isRequired,
+    handleEditProfile: PropTypes.func.isRequired,
 };
 
 export default Navbar;

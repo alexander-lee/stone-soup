@@ -1,0 +1,58 @@
+@import '~styles/main';
+
+@keyframes ripple {
+  0% {
+    transform: scale(0, 0);
+    opacity: 1;
+  }
+  20% {
+    transform: scale(25, 25);
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(40, 40);
+  }
+}
+
+.menuItemContainer {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.menuItem {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 70%;
+    height: 60px;
+    margin: 10px auto;
+    border: 1px solid $light-gray;
+    border-radius: 5px;
+
+    .name {
+        background-color: $green;
+        width: 50%;
+        height: 100%;
+        border-radius: 5px 0 0 5px;
+    }
+
+    .servings {
+        background-color: $white;
+        width: 50%;
+        height: 100%;
+        border-radius: 0 5px 5px 0;
+    }
+}
+
+.editMenuButton {
+    width: 100px;
+    height: 40px;
+    margin: 0 auto;
+    cursor: pointer;
+    background-color: $green;
+    letter-spacing: 0.5px;
+    text-align: center;
+    border-radius: 2px;
+    border: none;
+}
