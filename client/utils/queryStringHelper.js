@@ -4,6 +4,6 @@ export default function(parameters) {
   for(let key in parameters) {
     string += `${key}=${parameters[key]}&`;
   }
-  
+
   return string.slice(0,-1);
 }
