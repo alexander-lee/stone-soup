@@ -16,7 +16,7 @@ ReactDOM.render(
     <Router history={history}>
       <Route path="/menu" component={MenuPage} />
       <Route path="*" component={ErrorPage} />
-    </Router> 
+    </Router>
   </Provider>,
   document.getElementById('content')
 );

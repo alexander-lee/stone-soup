@@ -7,7 +7,7 @@ import { Redirect} from 'react-router';
 import Modal from '../components/Modal';
 import LoginPage from './LoginPage';
 
-import { getUser } from '../actions/user-actions';
+// import { getUser } from '../actions/user-actions';
 
 class App extends Component {
   componentDidMount() {
