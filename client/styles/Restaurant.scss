@@ -1,0 +1,59 @@
+@import '~styles/main';
+
+.header {
+    width: 100%;
+    background-color: $green;
+    height: 100px;
+
+    p {
+        font-size: 24px;
+        color: white;
+    }
+}
+
+.container {
+    width: 100%;
+    background-color: $green;
+}
+
+.carousel {
+    width: 80%;
+    margin: 50px auto;
+
+}
+
+.inputSection {
+    display: flex!important;
+    flex-direction: column!important;
+    align-items: center;
+    justify-content: center;
+
+    
+    margin: 25px auto;
+    background-color: $white;
+    width: 80%;
+    height: 350px;
+
+    p {
+        font-size: 24px;
+    }
+
+    .inputField {
+        width: 60%;
+        height: 30px;
+    }
+
+    .inputTimeslot {
+        display: flex;
+        align-items: center;
+        width: 80%;
+        justify-content: center;
+        margin: 0 10px;
+        p {
+            width: 45px;
+        }
+
+    }
+
+}
+

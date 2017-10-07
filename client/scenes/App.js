@@ -8,10 +8,17 @@ class App extends Component {
       this.props.router.push('/restaurant/edit');
   };
 
+  handleHomeNavigation = () => {
+      this.props.router.push('/menu');
+  };
+
   render() {
       return (
         <div>
-          <Navbar handleEditRestaurant={this.handleEditRestaurant}/>
+          <Navbar
+            handleEditRestaurant={this.handleEditRestaurant}
+            handleHomeNavigation={this.handleHomeNavigation}
+          />
           { this.props.children }
         </div>
       );

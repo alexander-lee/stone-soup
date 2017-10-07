@@ -7,7 +7,7 @@ import App from './scenes/App';
 import ErrorPage from './scenes/ErrorPage';
 import MenuPage from './scenes/MenuPage';
 import EditRestaurantPage from './scenes/EditRestaurantPage';
-
+import CreateRestaurantPage from './scenes/CreateRestaurantPage';
 import { store, history } from './create-store';
 
 ReactDOM.render(
@@ -16,6 +16,7 @@ ReactDOM.render(
         <Route path="/" component={App}>
             <Route path="/menu" component={MenuPage} />
             <Route path="/restaurant/edit" component={EditRestaurantPage}/>
+            <Route path="/restaurant/create" component={CreateRestaurantPage}/>
         </Route>
         <Route path="*" component={ErrorPage} />
     </Router>

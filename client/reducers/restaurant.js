@@ -8,12 +8,12 @@ export default function(state = {}, action) {
         case EDIT_MENU_SUCCESS:
             return {
                 ...state,
-                success: true,
+                isEditSuccessful: true,
             };
         case EDIT_MENU_ERROR:
             return {
                 ...state,
-                success: false,
+                isEditSuccessful: false,
             };
         default:
             return state;
