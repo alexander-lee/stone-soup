@@ -1,6 +1,5 @@
 import React from 'react';
 import s from '../styles/Menu.scss';
-import Input from 'muicss/lib/react/input'
 
 const MenuItem = ({ name, servings, handleDeleteClick, handleServingsEdit }) => {
     const className = `${s.deleteButton} fa fa-times-circle`;
