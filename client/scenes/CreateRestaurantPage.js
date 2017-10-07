@@ -3,18 +3,27 @@ import PropTypes from 'prop-types';
 import Slider from 'react-slick';
 import moment from 'moment';
 import TimePicker from 'rc-time-picker';
+import { push } from 'react-router-redux';
+import { editUser } from '../actions/user-actions.js';
+import { connect } from 'react-redux';
 import s from '../styles/Restaurant.scss';
 
 class CreateRestaurant extends Component {
+
+    static propTypes = {
+        editUser: PropTypes.func.isRequired,
+        editUserSuccess: PropTypes.bool,
+        _id: PropTypes.string,
+    };
 
     state = {
         name: '',
         location: '',
         pickupTimes: [...Array(7).keys()].map(i => {
-            return [
-                moment().hour(17).minute(0).format('HH:mm').toString(),
-                moment().hour(17).minute(30).format('HH:mm').toString()
-            ]
+            return {
+                startDate: moment().hour(17).minute(0).format('HH:mm').toString(),
+                endDate: moment().hour(17).minute(30).format('HH:mm').toString()
+            }
         }),
         dietaryRestrictions: {
             vegan: false,
@@ -26,12 +35,19 @@ class CreateRestaurant extends Component {
         },
     };
 
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.editUserSuccess) {
+            this.props.push('/menu');
+        }
+    }
+
     // dayOfweek: [0 -> 6], represents index of day of week
     // index: 0 or 1. 0 === start, 1 === end
     handleDateSelection = (value, dayOfWeek, index) => {
         const { pickupTimes } = this.state;
         const newTimes = [...pickupTimes];
-        newTimes[dayOfWeek][index] = value.format('HH:mm').toString();
+        let accessor = index === 0 ? 'startDate' : 'endDate';
+        newTimes[dayOfWeek][accessor] = value.format('HH:mm').toString();
         this.setState({ pickupTimes: newTimes });
     };
 
@@ -42,7 +58,9 @@ class CreateRestaurant extends Component {
     };
 
     handleSubmit = () => {
-        
+        const { location, name, pickupTimes, dietaryRestrictions } = this.state;
+        const id = this.props.user._id;
+        this.props.editUser(id, location, name, pickupTimes, dietaryRestrictions);
     };
 
     addDietaryConcern = (concern) => {
@@ -178,4 +196,22 @@ class CreateRestaurant extends Component {
     }
 }
 
-export default CreateRestaurant;
+const mapStateToProps = (state) => {
+    return {
+        ...state.app.user
+    };
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        editUser: (userId, location, name, pickupTimes, dietaryRestrictions) => {
+            dispatch(editUser(userId, location, name, pickupTimes, dietaryRestrictions));
+        },
+        push: (url) => {
+          dispatch(push(url));
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreateRestaurant);
+
