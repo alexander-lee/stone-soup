@@ -44,7 +44,6 @@ export function login(username, password) {
     };
 
     const response = await fetcher.post('/login', { body }, dispatch);
-    console.log(response);
     if (response.error) {
       dispatch({
         type: LOGIN_USER_ERROR,
