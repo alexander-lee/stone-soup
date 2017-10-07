@@ -42,7 +42,7 @@ class CreateRestaurant extends Component {
     };
 
     handleSubmit = () => {
-
+        
     };
 
     addDietaryConcern = (concern) => {
