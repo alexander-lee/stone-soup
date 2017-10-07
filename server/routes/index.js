@@ -1,8 +1,8 @@
 import express from 'express';
 import passport from 'passport';
+import loginHelper from '../utils/login-helper';
 
 const router = express.Router();
-const loginHelper = require('../utils/login-helper.js');
 
 router.get('/', function(req, res, next) {
   res.render('index');

@@ -4,6 +4,7 @@ import favicon from 'serve-favicon';
 import logger from 'morgan';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
+import mongoose from 'mongoose';
 import session from 'express-session';
 import passport from 'passport';
 import compression from 'compression';
@@ -11,6 +12,7 @@ import RateLimit from 'express-rate-limit';
 import config from './config/config';
 
 const app = express();
+const MongoStore = require('connect-mongo')(session);
 const credentials = config[process.env.NODE_ENV || 'development'];
 
 //============ VIEW ===========
@@ -25,6 +27,9 @@ app.use(bodyParser.urlencoded({ extended: false })); // parse application/x-www-
 app.use(cookieParser());
 app.use(compression());
 
+// Mongoose Connection
+mongoose.connect(credentials.host);
+
 // Create Session
 app.use(session({
   secret: 'super secret token',
@@ -32,7 +37,10 @@ app.use(session({
   saveUninitialized: true,
   cookie: {
     maxAge: 3600 * 1000
-  }
+  },
+  store: new MongoStore({
+    mongooseConnection: mongoose.connection
+  })
 }));
 
 // Passport
@@ -53,6 +61,7 @@ app.use('/api', limiter);
 app.use('/', require('./routes/index'));
 app.use('/', require('./routes/user'));
 app.use('/', require('./routes/sms'));
+app.use('/api/restaurant', require('./routes/restaurant'));
 
 app.use('*', require('./routes/index'));
 

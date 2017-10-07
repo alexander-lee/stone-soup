@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Navbar from '../components/Navbar';
 import MenuItem from '../components/MenuItem';
+import SaveButton from '../components/SaveButton';
 import s from '../styles/Menu.scss';
 
 class MenuPage extends Component {
@@ -36,42 +37,56 @@ class MenuPage extends Component {
     };
 
     state = {
-        isEditable: false,
+        isDirty: false,
+        menuItems: this.props.menuItems,
     };
 
-    handleClick = () => {
-        // this.props.router.push('/menu/edit');
-        this.setState({
-            isEditable: !this.state.isEditable,
-        });
+
+    handleSaveClick = () => {
+        // PUT here
+        console.log('Save');
     };
+
+    handleDeleteClick = (index) => {
+        const newItems = [...this.state.menuItems];
+        newItems.splice(index, 1);
+        this.setState({
+            menuItems: newItems,
+            isDirty: true,
+        });
+    }
 
     handleEditProfile = () => {
         this.props.router.push('/profile/edit');
     };
 
     renderMenuItems = () => {
-        return this.props.menuItems.map((item, index) => {
+        return this.state.menuItems.map((item, index) => {
             return (
                 <MenuItem
                     name={item.name}
                     servings={item.servings}
                     key={index}
+                    handleDeleteClick={() => this.handleDeleteClick(index)}
                 />
             );
         });
     };
 
     render() {
+
         return (
             <div>
                 <Navbar handleEditProfile={this.handleEditProfile}/>
                 <p>Menu Page</p>
                 <div className={s.menuItemContainer}>
-                        { this.renderMenuItems() }
+                    { this.renderMenuItems() }
                 </div>
-                <div onClick={this.handleClick} className={s.editMenuButton}>
-                    Edit Menu
+                <div className={s.saveButtonContainer}>
+                    <SaveButton
+                        inProp={this.state.isDirty}
+                        handleSaveClick={this.handleSaveClick}
+                    />
                 </div>
             </div>
         );

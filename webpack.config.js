@@ -52,7 +52,8 @@ export default {
           {
             loader: 'css-loader',
             options: {
-              modules: true
+              modules: true,
+              localIdentName: debug ? '[local]__[hash:base64:5]' : '[hash:base64:5]'
             }
           },
           {
@@ -72,20 +73,20 @@ export default {
           {
             loader: 'css-loader',
             options: {
-              modules: true
+              modules: true,
             }
           }
         ]
       },
       {
-        test: /\.(png|jpg|gif|svg|ttf|woff|woff2)$/,
+        test: /\.(png|jpg|gif|svg|ttf|eot)$/,
         use: {
           loader: 'url-loader',
           options: {
             limit: 8192, prefix: '/'
           }
         }
-      },
+      }
     ]
   },
   plugins: [
