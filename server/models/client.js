@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const Client = new Schema({
   phoneNumber: String,
   zipcode: String,
-  //subscribedRestaurants: [ObjectId]
+  subscribedRestaurants: [Schema.Types.ObjectId]
 }, {
   timestamps: true
 });
