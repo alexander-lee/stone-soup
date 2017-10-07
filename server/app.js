@@ -44,7 +44,9 @@ app.use(express.static(path.join(__dirname, '..', 'public')));
 
 // Mongo Connect
 mongoose.connect(`mongodb://${credentials.username}:${credentials.password}@${credentials.host}`, {
-  useMongoClient: true
+  useMongoClient: true,
+  server: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } },
+  replset: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } }
 });
 
 // Rate Limiter
