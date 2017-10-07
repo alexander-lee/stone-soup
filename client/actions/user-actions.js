@@ -56,7 +56,7 @@ export function login(username, password) {
       Cookies.set('user', JSON.stringify(response.user), { expires: 3600 });
       dispatch({
         type: LOGIN_USER_SUCCESS,
-        user: response.user,
+        restaurant: response.user,
       });
     }
   }
