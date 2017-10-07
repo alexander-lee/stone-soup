@@ -31,12 +31,14 @@ router.post('/sms', (req, res) => {
       // TODO promises/async/await give me depression i just want to validate
       let restrictions = req.body.Body.split(',');
       let ans = validateDietaryRestrictions(restrictions);
-      console.log(ans);
+      console.log('call', ans);
       if (ans) {
+        console.log('ans', ans);
         twiml.message(
         'Here\'s a list of participating restaurants around your location. Choose 5 restaurants to subscribe to:\nLISTGOESHERE')
         req.session.state = 'subscribe';
       } else {
+        console.log(ans);
         twiml.message('Invalid dietary restriction input, follow the format (\'1\', \'1,2,3\', \'0\')');
       }
       break;
@@ -93,8 +95,12 @@ function checkIfRegistered(number) {
 
 function validateDietaryRestrictions(restrictions) {
   Promise.all(restrictions.map((restriction) => {
-
-  }));
+    return new Promise((resolve) => {
+      resolve(!isNaN(restriction) && Number(restriction) < 4);
+    });
+  })).then((values) => {
+    console.log('values', values);
+  });
 }
 
 export default router;
