@@ -22,6 +22,7 @@ passport.deserializeUser(async function(id, done) {
   }
 });
 
+/*
 passport.use(new GoogleStrategy(auth.google,
   function(accessToken, refreshToken, profile, done) {
     process.nextTick(async function() {
@@ -54,15 +55,16 @@ passport.use(new GoogleStrategy(auth.google,
       }
     });
 }));
+*/
 
 passport.use('local', new LocalStrategy(
   {
-    usernameField: 'email',
+    usernameField: 'username',
     passwordField: 'password',
   },
   async function(username, password, done) {
     try {
-      const user = await User.findOne({ where: {email: username} });
+      const user = await User.findOne({ where: {username: username} });
 
       // User doesn't exist
       if(!user) {

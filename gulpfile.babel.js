@@ -12,9 +12,6 @@ import { exec } from 'child_process';
 
 import config from './webpack.config.js';
 
-import migrations from './server/migrations/run-migrations';
-import { runMigrations } from './server/migrations/run-migrations';
-
 gulp.task('build', ['sass', 'images', 'server-run'], function() {
   return gulp.src('client/app.js')
     .pipe(notify('Starting Webpack Build'))
@@ -68,30 +65,14 @@ gulp.task('prod-env', function() {
   return process.env.NODE_ENV = 'production';
 })
 
-gulp.task('server-run', ['server-build'], function() {
-  runMigrations();
-});
-
-gulp.task('drop-migrations', function() {
-  migrations.down({ to: 0 })
-  .then((migrations) => {
-    console.log('Migrations Removed');
-    process.exit();
-  })
-  .catch((error) => {
-    console.log('Error:' + error);
-    process.exit(1);
-  });
-});
-
-gulp.task('run', ['server-run'], function() {
+gulp.task('run', ['server-build'], function() {
   const forbidden = ['client', 'node_modules', 'public', 'dist'];
   nodemon({
     script: './bin/www',
     ext: 'js',
     ignore: forbidden
   })
-  .on('restart', ['server-run']);
+  .on('restart', ['server-build']);
 });
 
 gulp.task('default', ['dev-env', 'webpack-watch', 'assets-watch', 'run']);
