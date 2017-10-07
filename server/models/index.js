@@ -13,7 +13,7 @@ fs.readdirSync(__dirname)
   })
   .forEach(function(file){
     const model = require(path.join(__dirname, file));
-    db[model.name] = model;
+    db[model.modelName] = model;
   });
 
 export default db;
