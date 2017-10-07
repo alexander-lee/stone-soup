@@ -1,7 +1,6 @@
 import {
     EDIT_MENU_SUCCESS,
     EDIT_MENU_ERROR,
-    GET_MENU,
 } from '../actions/restaurant-actions.js';
 
 export default function(state = {}, action) {
@@ -15,11 +14,6 @@ export default function(state = {}, action) {
             return {
                 ...state,
                 isEditSuccessful: false,
-            };
-        case GET_MENU:
-            return {
-                ...state,
-                menu: action.menu,
             };
         default:
             return state;

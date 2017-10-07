@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux'
+import _ from 'lodash';
 
 import Navbar from '../components/Navbar';
 import MenuItem from '../components/MenuItem';
@@ -36,7 +37,7 @@ class MenuPage extends Component {
     if (!this.props.userId && nextProps.userId) {
       this.props.getMenu(nextProps.userId);
     }
-    if (this.props.menu.length !== nextProps.menu.length) {
+    if (!_.isEqual(this.props.menu, nextProps.menu)) {
       this.setState({ menu: nextProps.menu });
     }
   }
