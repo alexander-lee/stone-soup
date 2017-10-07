@@ -15,14 +15,17 @@ export default function(state = initialState, action) {
     case GET_USER:
       return {
         ...state,
+        ...action.user,
+        id: action.user._id,
         loggedIn: Boolean(action.user),
       };
     case LOGIN_USER_SUCCESS:
       return {
         ...state,
+        ...action.user,
+        id: action.user._id,
         loggedIn: true,
         loginUserError: false,
-        id: action.user._id,
       };
     case LOGIN_USER_ERROR:
       return {

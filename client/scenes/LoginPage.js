@@ -53,7 +53,7 @@ class LoginPage extends Component {
           <p>Participate</p>
           <input type="text" placeholder="Username" ref="username" />
           <input type="password" placeholder="Password" ref="password" />
-          <button onClick={this.onLogin}>Login</button>
+          <button className={s.loginButton} onClick={this.onLogin}>Login</button>
           <button onClick={this.onCreate}>Create Account</button>
         </div>
         <div className={s.imageContainer}>
