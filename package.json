@@ -49,7 +49,7 @@
     "passport-google-oauth20": "^1.0.0",
     "passport-local": "^1.0.0",
     "prop-types": "^15.5.10",
-    "react": "^15.2.1",
+    "react": "^16.0.0",
     "react-document-meta": "^2.1.2",
     "react-dom": "^15.2.1",
     "react-redux": "^4.4.5",
