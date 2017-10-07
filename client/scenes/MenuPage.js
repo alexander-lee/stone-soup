@@ -10,7 +10,7 @@ class MenuPage extends Component {
     render() {
         return (
             <div>
-                <Navbar />
+                <Navbar router={this.props.router}/>
                 <p>Menu Page</p>
             </div>
         );
