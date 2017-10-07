@@ -1,6 +1,7 @@
 import express from 'express';
 import bcrypt from 'bcryptjs';
 import { Restaurant } from '../models';
+import { schedulerFactory } from '../utils/scheduler';
 
 const router = express.Router();
 
@@ -11,12 +12,12 @@ const dietaryRestrictions = Object.keys(Restaurant.schema.tree.dietaryRestrictio
 /*
   Request Body: {
     username: String,
-    password: String,  
+    password: String,
   }
 */
 router.post('/create', async (req, res) => {
   const body = req.body;
-  
+
   try {
     // check if username already exists
     const restaurant = await Restaurant.find({ username: body.username });
@@ -66,6 +67,9 @@ router.put('/edit/:id', async (req, res) => {
         for (interval of day) {
           if (!interval.hasOwnProperty('startDate') || !interval.hasOwnProperty('endDate')) {
             throw new Error('pickupTimes needs to have intervals with startDate and endDate');
+          } else {
+            const scheduledAlert = schedulerFactory(interval.startDate);
+            scheduledAlert.start();
           }
         }
       }
@@ -81,7 +85,7 @@ router.put('/edit/:id', async (req, res) => {
 
     const restaurant = await Restaurant.findById(req.params.id);
 
-    for (key of properties) {
+    for (let key of properties) {
       if (body.hasOwnProperty(key)) {
         restaurant[key] = body[key];
       }
@@ -105,6 +109,7 @@ router.put('/edit/:id', async (req, res) => {
     });
   }
   catch (error) {
+    console.log(error);
     res.status(400).send({
       error
     });
