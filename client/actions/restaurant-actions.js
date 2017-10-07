@@ -3,7 +3,7 @@ import fetcher from '../utils/fetcher';
 export const EDIT_MENU_SUCCESS = 'EDIT_MENU_SUCCESS';
 export const EDIT_MENU_ERROR = 'EDIT_MENU_ERROR';
 export const GET_MENU = 'GET_MENU';
-export const GET_ALL_MENU_IDS = 'GET_ALL_MENU_IDS';
+export const GET_CLIENTS = 'GET_CLIENTS';
 
 export function editMenu(id, menu) {
   return async function(dispatch, getState) {

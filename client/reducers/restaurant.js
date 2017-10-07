@@ -1,6 +1,7 @@
 import {
     EDIT_MENU_SUCCESS,
     EDIT_MENU_ERROR,
+    GET_CLIENTS
 } from '../actions/restaurant-actions.js';
 
 export default function(state = {}, action) {

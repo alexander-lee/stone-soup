@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { getMenu } from '../actions/user-actions';
+import { getMenu } from '../actions/restaurant-actions';
 import { connect } from 'react-redux';
 
 class TicketPage extends Component {
@@ -12,9 +12,20 @@ class TicketPage extends Component {
     numServings: PropTypes.number,
   };
 
+  static defaultProps = {
+    clients: [],
+  }
+
   componentDidMount() {
     const { id } = this.props;
     if (id) {
+      this.props.getMenu(id);
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { id } = this.props;
+    if (!id && nextProps.id) {
       this.props.getMenu(id);
     }
   }
@@ -24,7 +35,6 @@ class TicketPage extends Component {
       <div>Ticket Page</div>
     );
   }
-
 }
 
 const mapStateToProps = (state) => {
