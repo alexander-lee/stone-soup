@@ -58,6 +58,7 @@ router.put('/edit/:id', async(req, res) => {
   const properties = Object.keys(Restaurant.schema.tree)
     .filter((key) => !uneditableKeys.includes(key));
   const body = req.body;
+  console.log(body);
   try {
     // Error Handling
     if (body.hasOwnProperty('pickupTimes')) {
@@ -101,6 +102,10 @@ router.put('/edit/:id', async(req, res) => {
       }
     }
 
+    // restaurant.validate((err) => {
+
+    });
+
     await restaurant.save();
 
     res.status(200).send({
@@ -108,7 +113,7 @@ router.put('/edit/:id', async(req, res) => {
     });
   } catch (error) {
     res.status(400).send({
-      error
+      error: error.toString()
     });
   }
 });

@@ -14,7 +14,40 @@ const Restaurant = new Schema({
   menu: [{ name: String, servings: Number }],
   location: String,
   pickupTimes: [
-    [{ startDate: Date, endDate: Date }]
+    [
+      {
+        startDate: {
+          type: String,
+          validate: {
+            isAsync: true,
+            validator: (v, cb) => {
+              setTimeout(() => {
+                let dateRegex = /^([0-1]?[0-9]|2[0-3])(:[0-5][0-9])?$/;
+                let msg = v + ' is not a valid phone number.';
+                cb(dateRegex.test(v), msg);
+              }, 5)
+            },
+            message: 'Default error message'
+          },
+          required: [true, 'Valid start to interval required']
+        },
+        endDate: {
+          type: String,
+          validate: {
+            isAsync: true,
+            validator: (v, cb) => {
+              setTimeout(() => {
+                let dateRegex = /^([0-1]?[0-9]|2[0-3])(:[0-5][0-9])?$/;
+                let msg = v + ' is not a valid phone number.';
+                cb(dateRegex.test(v), msg);
+              }, 5)
+            },
+            message: 'Default error message'
+          },
+          required: [true, 'Valid start to interval required']
+        },
+      }
+    ]
   ],
   dietaryRestrictions: {
     vegan: Boolean,
@@ -37,10 +70,10 @@ Restaurant.statics.sendNotifications = (cb) => {
 
     function sendNotifications(restaurants) {
         const client = new Twilio(twilioSid, twilioAuth);
-        clients.forEach((restaurant) => {
-          restaurant.subscribers.forEach((subscriber) => {
+        restaurants.forEach((restaurant) => {
+          restaurant.subcribedClients.forEach((subscriberID) => {
             const options = {
-                to: subscriber,
+                to: subscriber, // fetch subscriber phone # with subscriberID
                 from: twilioNum,
                 body: `${restaurant.username} will be having their distribution time in half an hour! TODO ticket generation goes here`
             };
