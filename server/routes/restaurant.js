@@ -37,15 +37,23 @@ router.post('/create', async(req, res) => {
     await newRestaurant.save();
 
     res.status(200).send({
-      restaurant: newRestaurant
+      restaurant: newRestaurant,
+      redirectTo: '/restaurant/create'
     });
   } catch (error) {
     res.status(400).send({
-      error
+      error: 'User already exists'
     });
   }
 });
 
+
+router.get('/menu/:id', async(req, res) => {
+  let menu = null;
+  const restaurant = await Restaurant.findById(req.params.id);
+  menu = restaurant.menu;
+  res.status(200).send({ menu });
+});
 /*
   Request Body: {
     location: String,

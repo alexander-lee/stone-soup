@@ -7,7 +7,10 @@ import fetcher from '../utils/fetcher';
 - Constants
 **/
 export const GET_USER = 'GET_USER';
-export const LOGIN_USER = 'LOGIN_USER';
+export const LOGIN_USER_SUCCESS = 'LOGIN_USER_SUCCESS';
+export const LOGIN_USER_ERROR = 'LOGIN_USER_ERROR';
+export const CREATE_USER_SUCCESS = 'CREATE_USER_SUCCESS';
+export const CREATE_USER_ERROR = 'CREATE_USER_ERROR';
 
 export function getUser() {
   return async function(dispatch, getState) {
@@ -38,15 +41,44 @@ export function login(username, password) {
     const body = {
       username,
       password
-    }
+    };
 
     const response = await fetcher.post('/login', { body }, dispatch);
+    if (response.error) {
+      dispatch({
+        type: LOGIN_USER_ERROR,
+        error: response.error,
+      });
+    } else {
+      Cookies.expire('user');
+      Cookies.set('user', JSON.stringify(response.user), { expires: 3600 });
+      dispatch({
+        type: LOGIN_USER_SUCCESS,
+        user: response.user,
+      });
+    }
+  }
+}
 
-    Cookies.expire('user');
-    Cookies.set('user', JSON.stringify(response.user), { expires: 3600 });
-    dispatch({
-      type: LOGIN_USER,
-      user: response.user
-    })
+export function createUser(username, password) {
+  return async function(dispatch) {
+    const body = {
+      username,
+      password
+    };
+
+    const response = await fetcher.post('/api/restaurant/create', { body }, dispatch);
+    if (response.error) {
+      dispatch({
+        type: CREATE_USER_ERROR,
+        error: response.error,
+      });
+    } else {
+      dispatch({
+        type: CREATE_USER_SUCCESS,
+        user: response.user,
+      });
+    }
+
   }
 }
