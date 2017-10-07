@@ -12,7 +12,7 @@ class App extends Component {
     this.props.getUser();
   }
 
-  _renderMain = () => {
+  renderMain = () => {
     return (
       <div className="index-wrapper">
         <SideBar />
@@ -24,7 +24,7 @@ class App extends Component {
   render() {
     let body;
     if(this.props.user.loggedIn) {
-      body = this._renderMain();
+      body = this.renderMain();
     }
     else if(window.location.pathname === '/login') {
       body = <LoginPage />;
