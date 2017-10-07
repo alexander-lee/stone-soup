@@ -7,9 +7,12 @@ import bodyParser from 'body-parser';
 import session from 'express-session';
 import passport from 'passport';
 import compression from 'compression';
-import RateLimit from 'express-rate-limit';;
+import RateLimit from 'express-rate-limit';
+import mongoose from 'mongoose';
+import config from 'config/config';
 
-let app = express();
+const app = express();
+const credentials = config[process.env.NODE_ENV || 'development'];
 
 //============ VIEW ===========
 app.set('views', path.join(__dirname, '..', 'views'));
@@ -23,7 +26,7 @@ app.use(bodyParser.urlencoded({ extended: false })); // parse application/x-www-
 app.use(cookieParser());
 app.use(compression());
 
-// Create Seq
+// Create Session
 app.use(session({
   secret: 'super secret token',
   resave: false,
@@ -38,6 +41,9 @@ require('./utils/passport-setup');
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(path.join(__dirname, '..', 'public')));
+
+// Mongo Connect
+mongoose.connect(`mongodb://${credentials.username}:${credentials.password}@${credentials.host}`);
 
 // Rate Limiter
 const limiter = new RateLimit({

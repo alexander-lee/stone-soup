@@ -1,24 +1,12 @@
 export default {
   development: {
-    host: 'localhost',
-    username: 'root',
-    password: '',
-    dialect: 'mysql',
-    logging: console.log,
-    name: 'MyDatabase',
-    define: {
-      freezeTableName: true
-    }
+    host: 'ds036079.mlab.com:36079/stonesoup',
+    username: 'stonesoup',
+    password: 'stonesoup',
   },
   production: {
-    host: 'mysql',
-    username: 'test',
-    password: 'test',
-    dialect: 'mysql',
-    logging: false,
-    name: 'MyDatabase',
-    define: {
-      freezeTableName: true
-    }
+    host: 'ds036079.mlab.com:36079/stonesoup',
+    username: 'stonesoup',
+    password: 'stonesoup',
   }
 }
