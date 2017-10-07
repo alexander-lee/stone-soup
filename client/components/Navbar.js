@@ -13,7 +13,7 @@ const Navbar = ({ router }) => {
         <div className={s.navbar}>
             <p className={s.logo}>Stone Soup</p>
             <img
-                src="/images/settings.png"
+                src="/images/settings.svg"
                 className={s.editProfile}
                 onClick={handleClick}
             />
