@@ -1,12 +1,5 @@
 import express from 'express';
-import Datastore from '@google-cloud/datastore'
-import auth from '../config/auth';
 import { Restaurant } from '../models';
-
-const dataKind = 'Restaurant';
-const db = Datastore({
-  projectId: auth.google.clientID
-});
 
 const router = express.Router();
 
@@ -33,11 +26,10 @@ router.put('/edit/:id', async (req, res) => {
       }
     }
 
-    const key = db.key([dataKind, req.params.id]);
-    const restaurant = await db.get(key);
+    const restaurant = await Restaurant.findById(req.params.id);
     restaurant.location = body.location;
     restaurant.pickupTimes = body.pickupTimes;
-    await db.save(restaurant);
+    await restaurant.save();
 
     res.status(200).send({
       restaurant
