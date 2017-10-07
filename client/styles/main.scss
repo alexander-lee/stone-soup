@@ -1,8 +1,13 @@
 @import 'functions';
 @import 'variables';
+@import 'fonts';
+
+h1, h2, h3, h4, h5 {
+  font-family: 'Monteserrat', sans-serif;
+}
 
 body {
-  font-family: 'Lucida Grande', Helvetica, Arial, sans-serif;
+  font-family: 'CrimsonText', serif;
   background-color: $white;
 }
 

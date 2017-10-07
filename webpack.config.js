@@ -78,14 +78,14 @@ export default {
         ]
       },
       {
-        test: /\.(png|jpg|woff|woff2|gif)$/,
+        test: /\.(png|jpg|gif|svg|ttf|woff|woff2)$/,
         use: {
           loader: 'url-loader',
           options: {
             limit: 8192, prefix: '/'
           }
         }
-      }
+      },
     ]
   },
   plugins: [
