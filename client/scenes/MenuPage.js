@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import Navbar from '../components/Navbar';
 import MenuItem from '../components/MenuItem';
 import SaveButton from '../components/SaveButton';
+import connect from 'react-redux';
+import { editMenu } from '../actions/restaurant-actions.js';
 import s from '../styles/Menu.scss';
 
 class MenuPage extends Component {
@@ -34,6 +36,7 @@ class MenuPage extends Component {
 
     static propTypes = {
         menuItems: PropTypes.arrayOf(PropTypes.object).isRequired,
+        editMenu: PropTypes.func.isRequired,
     };
 
     state = {
@@ -45,6 +48,7 @@ class MenuPage extends Component {
     handleSaveClick = () => {
         // PUT here
         console.log('Save');
+        this.props.editMenu(1234, this.state.menuItems);
     };
 
     handleDeleteClick = (index) => {
@@ -97,6 +101,18 @@ class MenuPage extends Component {
                 </div>
             </div>
         );
+    }
+}
+
+const mapStateToProps = (state) => {
+    return state;
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        editMenu: (id, menu) => {
+            dispatch(editMenu(id, menu));
+        }
     }
 }
 
