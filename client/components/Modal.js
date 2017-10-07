@@ -19,7 +19,7 @@ class Modal extends Component {
     });
   }
 
-  _onOkClick = () => {
+  onOkClick = () => {
     if(this.props.onOk) {
       this.props.onOk();
     }
@@ -40,7 +40,7 @@ class Modal extends Component {
           {this.props.children}
           <div className="button-group">
             {this.props.onCancel ? <button onClick={this.props.onCancel}>Cancel</button> : null}
-            <button onClick={this._onOkClick}>OK</button>
+            <button onClick={this.onOkClick}>OK</button>
           </div>
         </div>
       </div>

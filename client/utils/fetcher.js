@@ -1,10 +1,8 @@
 import fetch from 'isomorphic-fetch';
 import _ from 'lodash';
+import { push } from 'react-router-redux';
 
-import { store, history } from '../create-store';
-import { APPLICATION_ERROR } from '../shared/constants';
-
-async function request(url, options){
+async function request(url, userOptions, dispatch) {
   const defaultOptions = {
     credentials: 'same-origin',
     headers: {
@@ -12,50 +10,44 @@ async function request(url, options){
       'Content-Type': 'application/json',
       'Content-Security-Policy': 'default-src \'self\'',
       'X-Frame-Options': 'SAMEORIGIN',
-      'X-XSS-Protection': 1
+      'X-XSS-Protection': 1,
     },
   };
 
-  if(options.body && typeof options.body === 'object') {
-    options.body = JSON.stringify(options.body);
+  if (userOptions.body && typeof userOptions.body === 'object') {
+    userOptions.body = JSON.stringify(userOptions.body);
   }
 
-  options = {...defaultOptions, ...options};
+  const options = { ...defaultOptions, ...userOptions };
 
   try {
     const response = await fetch(url, options);
     const body = await response.json();
 
-    if(body.redirectTo) {
-      history.push(body.redirectTo);
+    if (body.redirectTo) {
+      if (!dispatch) {
+        throw new Error('Dispatch not found!');
+      }
+
+      dispatch(push(body.redirectTo));
     }
 
-    if(response.ok) {
+    if (response.ok) {
       return body;
     }
-    else {
-      throw body;
-    }
+
+    throw body;
   }
   catch (e) {
     const error = _.get(e, 'error', e) || 'An unexpected error has occurred!';
-    console.error(error);
-
-    store.dispatch({
-      type: APPLICATION_ERROR,
-      error: error
-    });
-
     return { error };
   }
 }
 
-let wrapper = {};
-['get', 'post', 'put', 'delete'].forEach(function(method) {
+const wrapper = {};
+['get', 'post', 'put', 'delete'].forEach((method) => {
   wrapper[method] = (url, options = {}) => {
     options.method = method;
     return request(url, options);
   };
 });
-
-export default wrapper;

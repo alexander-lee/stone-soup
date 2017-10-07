@@ -43,7 +43,9 @@ app.use(passport.session());
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
 // Mongo Connect
-mongoose.connect(`mongodb://${credentials.username}:${credentials.password}@${credentials.host}`);
+mongoose.connect(`mongodb://${credentials.username}:${credentials.password}@${credentials.host}`, {
+  useMongoClient: true
+});
 
 // Rate Limiter
 const limiter = new RateLimit({
