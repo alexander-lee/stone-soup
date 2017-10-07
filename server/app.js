@@ -8,7 +8,6 @@ import session from 'express-session';
 import passport from 'passport';
 import compression from 'compression';
 import RateLimit from 'express-rate-limit';
-import mongoose from 'mongoose';
 import config from './config/config';
 
 const app = express();
@@ -41,13 +40,6 @@ require('./utils/passport-setup');
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(path.join(__dirname, '..', 'public')));
-
-// Mongo Connect
-mongoose.connect(`mongodb://${credentials.username}:${credentials.password}@${credentials.host}`, {
-  useMongoClient: true,
-  server: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } },
-  replset: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } }
-});
 
 // Rate Limiter
 const limiter = new RateLimit({
