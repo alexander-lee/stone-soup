@@ -14,15 +14,6 @@ body {
   height: 100vh;
 }
 
-button {
-  border: 0;
-  outline: none;
-
-  &:hover {
-    cursor: pointer;
-  }
-}
-
 a {
   color: inherit;
   text-decoration: none;
@@ -58,7 +49,15 @@ button {
   font-weight: bold;
   text-transform: uppercase;
   letter-spacing: 1px;
+  border: 0;
   border-radius: 20px;
-  background-color: $dark-red;
+  background-color: lighten($dark-red, 10%);
   color: $white;
+  outline: none;
+  transition: transform 100ms linear;
+
+  &:hover {
+    cursor: pointer;
+    transform: translate(0, 1px);
+  }
 }

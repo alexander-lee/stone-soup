@@ -49,13 +49,13 @@ router.post('/create', async(req, res) => {
   }
 });
 
-
 router.get('/menu/:id', async(req, res) => {
   let menu = null;
   const restaurant = await Restaurant.findById(req.params.id);
   menu = restaurant.menu;
   res.status(200).send({ menu });
 });
+
 /*
   Request Body: {
     location: String,
