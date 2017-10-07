@@ -55,6 +55,7 @@ router.get('/menu/:id', async(req, res) => {
   menu = restaurant.menu;
   res.status(200).send({ menu });
 });
+
 /*
   Request Body: {
     location: String,

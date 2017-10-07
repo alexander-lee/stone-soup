@@ -17,9 +17,12 @@ export default function(state = {}, action) {
                 isEditSuccessful: false,
             };
         case GET_MENU:
+            let numServings = 0;
+            action.menu.forEach(item => numServings += item.servings);
             return {
                 ...state,
                 menu: action.menu,
+                numServings,
             };
         default:
             return state;

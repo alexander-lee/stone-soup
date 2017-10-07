@@ -51,6 +51,7 @@
     "passport-google-oauth20": "^1.0.0",
     "passport-local": "^1.0.0",
     "prop-types": "^15.5.10",
+    "qr-image": "^3.2.0",
     "rc-time-picker": "^2.4.1",
     "react": "^16.0.0",
     "react-document-meta": "^2.1.2",
