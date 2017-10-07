@@ -5,10 +5,14 @@ import s from '../styles/Menu.scss';
 
 class MenuPage extends Component {
 
+    handleEditProfile = () => {
+        this.props.router.push('/profile/edit');
+    };
+
     render() {
         return (
             <div>
-                <Navbar router={this.props.router}/>
+                <Navbar handleEditProfile={this.handleEditProfile}/>
                 <p>Menu Page</p>
                 { this.props.children }
             </div>

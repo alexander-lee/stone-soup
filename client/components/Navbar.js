@@ -3,11 +3,9 @@ import PropTypes from 'prop-types';
 import s from '../styles/Navbar.scss';
 
 
-const Navbar = ({ router }) => {
+const Navbar = ({ handleEditProfile }) => {
 
-    const handleClick = () => {
-        router.push('/profile/edit')
-    }
+
 
     return (
         <div className={s.navbar}>
@@ -18,7 +16,7 @@ const Navbar = ({ router }) => {
             <img
                 src="/images/settings.svg"
                 className={s.editProfile}
-                onClick={handleClick}
+                onClick={handleEditProfile}
             />
         </div>
     )
