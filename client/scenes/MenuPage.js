@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 import Navbar from '../components/Navbar';
 import MenuItem from '../components/MenuItem';
 import SaveButton from '../components/SaveButton';
-import connect from 'react-redux';
+import { connect } from 'react-redux';
 import { editMenu } from '../actions/restaurant-actions.js';
 import s from '../styles/Menu.scss';
 
 class MenuPage extends Component {
 
     static defaultProps = {
-        menuItems: [
+        menu: [
             {
                 name: 'Pizza',
                 servings: 10,
@@ -35,27 +35,27 @@ class MenuPage extends Component {
     };
 
     static propTypes = {
-        menuItems: PropTypes.arrayOf(PropTypes.object).isRequired,
+        menu: PropTypes.arrayOf(PropTypes.object).isRequired,
         editMenu: PropTypes.func.isRequired,
     };
 
     state = {
         isDirty: false,
-        menuItems: this.props.menuItems,
+        menu: this.props.menu,
     };
 
 
     handleSaveClick = () => {
         // PUT here
         console.log('Save');
-        this.props.editMenu(1234, this.state.menuItems);
+        this.props.editMenu('59d8caf9cead366086cf7280', this.state.menu);
     };
 
     handleDeleteClick = (index) => {
-        const newItems = [...this.state.menuItems];
+        const newItems = [...this.state.menu];
         newItems.splice(index, 1);
         this.setState({
-            menuItems: newItems,
+            menu: newItems,
             isDirty: true,
         });
     };
@@ -63,16 +63,16 @@ class MenuPage extends Component {
     handleServingsEdit = (servings, index) => {
         console.log(servings);
         console.log(index);
-        const newItems = [...this.state.menuItems];
+        const newItems = [...this.state.menu];
         newItems[index].servings = servings;
         this.setState({
-            menuItems: newItems,
+            menu: newItems,
             isDirty: true,
         });
     }
 
     renderMenuItems = () => {
-        return this.state.menuItems.map((item, index) => {
+        return this.state.menu.map((item, index) => {
             return (
                 <MenuItem
                     name={item.name}
@@ -116,5 +116,6 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default MenuPage;
+export default connect(mapStateToProps, mapDispatchToProps)(MenuPage);
+
 
