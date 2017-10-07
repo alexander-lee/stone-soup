@@ -41,3 +41,5 @@ router.put('/edit/:id', async (req, res) => {
     });
   }
 });
+
+export default router;
