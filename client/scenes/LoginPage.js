@@ -19,7 +19,6 @@ class LoginPage extends Component {
   onLogin = () => {
     const username = this.refs.username.value;
     const password = this.refs.password.value;
-    console.log(username, password);
     this.props.dispatch(login(username, password));
   }
 

@@ -6,12 +6,9 @@ import passport from 'passport';
   - Returns a response that tells the Frontend where to redirectTo via browserHistory
 */
 export default async function(type, req, res, next){
-  try {
-    console.log('test1');
+  try {;
     const user = await authenticate(type, req, res, next);
-    console.log('user');
     const response = await login(user, req, res, next);
-    console.log(response);
     res.status(200).send(response);
   }
   catch(err) {
