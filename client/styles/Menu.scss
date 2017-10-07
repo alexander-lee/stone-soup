@@ -16,15 +16,16 @@
 }
 
 .menuItemContainer {
-    margin-top: 20px;
-    margin-bottom: 20px;
+    width: 60%;
+    margin: 20px auto;
+
 }
 
 .menuItem {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    width: 70%;
+
     height: 60px;
     margin: 10px auto;
     border: 1px solid $light-gray;
@@ -43,9 +44,47 @@
         height: 100%;
         border-radius: 0 5px 5px 0;
     }
+
+
+    .deleteButton {
+        float: right;
+        z-index: 2;
+        background-color: $white;
+        font-size: rem(20px);
+        top: rem(-7px);
+        right: rem(-7px);
+        border-radius: 60%;
+        opacity: 0;
+        transition: all 200ms ease-in-out;
+
+        &:hover {
+            font-size: rem(22px);
+            top: rem(-8px);
+            right: rem(-8px);
+        }
+    }
+
+    &:hover {
+        cursor: pointer;
+        transform: translate3d(-0.5px, -3px, 0px);
+        box-shadow: 1px 3px 5px 0px $light-gray;
+
+        &::after {
+            opacity: 0.15;
+        }
+
+        .deleteButton {
+            opacity: 1;
+        }
+
+    }
 }
 
-.editMenuButton {
+.saveButtonContainer {
+    
+}
+
+.saveButton {
     width: 100px;
     height: 40px;
     margin: 0 auto;
@@ -56,3 +95,6 @@
     border-radius: 2px;
     border: none;
 }
+
+
+

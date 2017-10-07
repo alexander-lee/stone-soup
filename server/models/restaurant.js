@@ -5,7 +5,7 @@ const Restaurant = new Schema({
   username: String,
   password: String,
   numberOfServings: Number,
-  foodItems: [{ name: String, servings: Number }],
+  menu: [{ name: String, servings: Number }],
   location: String,
   pickupTimes: [
     [{ startDate: Date, endDate: Date }]
