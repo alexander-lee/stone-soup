@@ -6,22 +6,21 @@ export const GET_MENU = 'GET_MENU';
 export const GET_ALL_MENU_IDS = 'GET_ALL_MENU_IDS';
 
 export function editMenu(id, menu) {
-    return async function(dispatch, getState) {
-        const response = await fetcher.put(`/api/restaurant/edit/${id}`, { body: { menu }});
-        // Should only return true if we our request was successful
-        const { restaurant } = response;
-        if (restaurant._id) {
-            dispatch({ type: EDIT_MENU_SUCCESS });
-        } else {
-            dispatch({type: EDIT_MENU_ERROR });
-        }
+  return async function(dispatch, getState) {
+    const response = await fetcher.put(`/api/restaurant/edit/${id}`, { body: { menu } });
+    // Should only return true if we our request was successful
+    const { restaurant } = response;
+    if (restaurant._id) {
+      dispatch({ type: EDIT_MENU_SUCCESS });
+    } else {
+      dispatch({type: EDIT_MENU_ERROR });
     }
+  }
 }
 
 export const getMenu = (id) => {
   return async (dispatch, getState) => {
     const response = await fetcher.get(`/api/restaurant/menu/${id}`);
-    console.log(response);
 
     dispatch({
       type: GET_MENU,
