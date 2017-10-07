@@ -37,11 +37,12 @@ router.post('/create', async(req, res) => {
     await newRestaurant.save();
 
     res.status(200).send({
-      restaurant: newRestaurant
+      restaurant: newRestaurant,
+      redirectTo: '/restaurant/create'
     });
   } catch (error) {
     res.status(400).send({
-      error
+      error: 'User already exists'
     });
   }
 });
