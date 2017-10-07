@@ -41,6 +41,35 @@ class CreateRestaurant extends Component {
         });
     };
 
+    handleSubmit = () => {
+
+    };
+
+    addDietaryConcern = (concern) => {
+        const { dietaryRestrictions } = {...this.state};
+        switch (concern) {
+            case 'Vegan':
+                dietaryRestrictions['vegan'] = !dietaryRestrictions['vegan'];
+                break;
+            case 'Peanut Allergy':
+                dietaryRestrictions['peanut'] = !dietaryRestrictions['peanut'];
+                break;
+            case 'Gluten Free':
+                dietaryRestrictions['glutenfree'] = !dietaryRestrictions['glutenfree'];
+                break;
+            case 'Lactose Intolerance':
+                dietaryRestrictions['milk'] = !dietaryRestrictions['milk'];
+                break;
+            case 'Egg Allergy':
+                dietaryRestrictions['egg'] = !dietaryRestrictions['egg'];
+                break;
+            case 'Seafood Allergy':
+                dietaryRestrictions['seafood'] = !dietaryRestrictions['seafood'];
+                break;
+        }
+        this.setState({ dietaryRestrictions });
+    }
+
     renderTimeSlots = () => {
         const start = moment().hour(17).minute(30);
         const format = 'h:mm a';
@@ -71,11 +100,33 @@ class CreateRestaurant extends Component {
         });
     };
 
+    renderDietaryConcerns = () => {
+        const dietaryConcerns = [
+            'Vegan',
+            'Peanut Allergy',
+            'Gluten Free',
+            'Lactose Intolerance',
+            'Egg Allergy',
+            'Seafood Allergy',
+        ];
+        return dietaryConcerns.map((item, index) => {
+            return (
+                <div
+                    key={index}
+                    onClick={() => this.addDietaryConcern(item)}
+                >
+                    { item }
+                </div>
+            );
+        });
+    };
+
     render() {
         const settings = {
             speed: 500,
             slidesToShow: 1,
-            slidesToScroll: 1
+            slidesToScroll: 1,
+            infinite: false,
         };
 
         return (
@@ -89,16 +140,16 @@ class CreateRestaurant extends Component {
                         <Slider {...settings}>
                             <div className={s.inputSection}>
                                 <p>What is the name of your restaurant?</p>
-                                <input 
-                                    className={s.inputField} 
+                                <input
+                                    className={s.inputField}
                                     onChange={(e) => this.handleChange(e, 'name')}
                                     type='text'
                                 />
                             </div>
                             <div className={s.inputSection}>
                                 <p>Where are you located?</p>
-                                <input 
-                                    className={s.inputField} 
+                                <input
+                                    className={s.inputField}
                                     onChange={(e) => this.handleChange(e, 'location')}
                                     type='text'
                                 />
@@ -109,7 +160,15 @@ class CreateRestaurant extends Component {
                             </div>
                             <div className={s.inputSection}>
                                 <p>What dietary restrictions may be of concern to clients?</p>
-                                <input></input>
+                                <div className={s.dietaryConcerns}>
+                                    { this.renderDietaryConcerns() }
+                                </div>
+                                <div
+                                    onClick={this.handleSubmit}
+                                    className={s.submitButton}
+                                >
+                                    Submit
+                                </div>
                             </div>
                         </Slider>
                     </div>

@@ -1,6 +1,8 @@
 import express from 'express';
 import bcrypt from 'bcryptjs';
-import { Restaurant } from '../models';
+import {
+  Restaurant
+} from '../models';
 
 const router = express.Router();
 
@@ -14,12 +16,14 @@ const dietaryRestrictions = Object.keys(Restaurant.schema.tree.dietaryRestrictio
     password: String,  
   }
 */
-router.post('/create', async (req, res) => {
+router.post('/create', async(req, res) => {
   const body = req.body;
-  
+
   try {
     // check if username already exists
-    const restaurant = await Restaurant.find({ username: body.username });
+    const restaurant = await Restaurant.find({
+      username: body.username
+    });
     if (restaurant.length > 0) {
       throw new Error('A restaurant with this username already exists!');
     }
@@ -35,8 +39,7 @@ router.post('/create', async (req, res) => {
     res.status(200).send({
       newRestaurant
     });
-  }
-  catch (error) {
+  } catch (error) {
     res.status(400).send({
       error
     });
@@ -50,7 +53,7 @@ router.post('/create', async (req, res) => {
     pickupTimes: [[{}]],
   }
 */
-router.put('/edit/:id', async (req, res) => {
+router.put('/edit/:id', async(req, res) => {
   const properties = Object.keys(Restaurant.schema.tree)
     .filter((key) => !uneditableKeys.includes(key));
   const body = req.body;
@@ -99,8 +102,7 @@ router.put('/edit/:id', async (req, res) => {
     res.status(200).send({
       restaurant
     });
-  }
-  catch (error) {
+  } catch (error) {
     res.status(400).send({
       error
     });
