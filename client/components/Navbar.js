@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import s from '../styles/Navbar.scss';
 
 
-const Navbar = ({ handleEditProfile }) => {
+const Navbar = ({ handleEditRestaurant }) => {
 
 
 
@@ -16,14 +16,14 @@ const Navbar = ({ handleEditProfile }) => {
             <img
                 src="/images/settings.svg"
                 className={s.editProfile}
-                onClick={handleEditProfile}
+                onClick={handleEditRestaurant}
             />
         </div>
     )
 }
 
 Navbar.propTypes = {
-    handleEditProfile: PropTypes.func.isRequired,
+    handleEditRestaurant: PropTypes.func.isRequired,
 };
 
 export default Navbar;
