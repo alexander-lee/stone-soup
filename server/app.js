@@ -9,7 +9,7 @@ import passport from 'passport';
 import compression from 'compression';
 import RateLimit from 'express-rate-limit';
 import mongoose from 'mongoose';
-import config from 'config/config';
+import config from './config/config';
 
 const app = express();
 const credentials = config[process.env.NODE_ENV || 'development'];
@@ -43,7 +43,9 @@ app.use(passport.session());
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
 // Mongo Connect
-mongoose.connect(`mongodb://${credentials.username}:${credentials.password}@${credentials.host}`);
+mongoose.connect(`mongodb://${credentials.username}:${credentials.password}@${credentials.host}`, {
+  useMongoClient: true
+});
 
 // Rate Limiter
 const limiter = new RateLimit({

@@ -20,6 +20,7 @@ router.get('/logout', function(req, res, next) {
   res.redirect('/');
 });
 
+/*
 // Google Auth
 router.get('/auth/google',
   passport.authenticate('google', {scope: ['profile', 'email']})
@@ -29,5 +30,6 @@ router.get('/auth/google',
 router.get('/auth/google/callback',
   passport.authenticate('google', {failureRedirect: '/login', successRedirect: '/'})
 );
+*/
 
 export default router;
