@@ -22,7 +22,7 @@ export const getMenu = (id) => {
     const response = await fetcher.get(`/api/restaurant/menu/${id}`);
     console.log(response);
 
-    dispatch({  
+    dispatch({
       type: GET_MENU,
       menu: response.menu,
     });

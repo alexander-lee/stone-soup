@@ -8,9 +8,7 @@ const Restaurant = new Schema({
   numberOfServings: Number,
   menu: [{ name: String, servings: Number }],
   location: String,
-  pickupTimes: [
-    [{ startDate: Date, endDate: Date }]
-  ],
+  pickupTimes: [{ startDate: String, endDate: String }],
   subscribedClients: [Schema.Types.ObjectId],
   dietaryRestrictions: {
     vegan: Boolean,
@@ -23,5 +21,6 @@ const Restaurant = new Schema({
 }, {
   timestamps: true
 });
+
 
 export default mongoose.model('Restaurant', Restaurant);
