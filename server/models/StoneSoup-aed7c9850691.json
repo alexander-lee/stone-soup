@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "stonesoup-182208",
+  "private_key_id": "aed7c985069177424cac7d02d68892cea72b01b9",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCprsFeoA49jKsN\n6NDldMl4Te9bbIGucmw8Uo4mPuO87/6oU+/slrcCxGDRJiF5JFbkgE9eOgczmeoT\npQCx9+D5XCjkyi1OSxqNgUoCzVYquPLqJocrBvlwCheGw8Ml6Auo7+cbtK9E21Ls\noPpyWotBWCjK40koFD1P3p1albtaNOE1WJj6AHnNnzmwwskvPSpugOerppqrtwid\nSg0flYnaaDDYBT3R3+97Z065Y/QJ3KlDEaGJFlXdzieoL/+FBILRM3KNyuGWTbUv\nocziOXVl+zM0jgAenu5V1lkG98kpewHfZulO0vm+hChnC7ls6y4yMX0Sdq2mbn1W\ntZ57XDMpAgMBAAECggEAEqMXaZuGXOPLsPAqq503eL+EpAPHvZ+jPD/sDY7YSDsK\n+zWW82M9cDAeGzLHN+1SHvBp50VT36rO3z//Es0RWIozEqgTMFeG79ZsyOCBT5l3\nUtkO/R6bvJ7bJSnw0APL7g8FkRE4NAWr9sIap/9CbteuSVSMBzsr3c8rdNTf2mEp\nGx2Ar9U4fqTEdw/uECBGnnb6oWkTVhZxREKMPUGAJSCgtd51gJ0cv5NL6W62AHFP\nyPIo9OFyDa7gn8W2E+ImBS95K0BDs0iWY1fXjzcY01fikRnhd+CODntsyYmvP8Q7\nX1FqSSrMEZu9FuQWINyKnuRJsCbVqpM1PWuCjMNBRQKBgQDfcjo+8vLnQkdieaK2\n7dktUhE9RpC6c+OT2S+WLuDhnCMxOxhA4P4vx7RXACu0TuFlcQ6ve3fB/1W10Zbn\neLyFaVBQ6LxxCit5WBAJaBfqPuvBL6iCRtT1l1BsKkFxopzu/UaP82XoUQH/nsgD\nYsHlCa0PyZeJGKZuqgqoB9tBfQKBgQDCZ1UXjhWtpih5ZOZvYNgNetZ/AGeeyrtX\nAmaScDizoxNP6sUN1NOU1yVnosrI4NZb5aUYViyERQEpCrtrMZbCVKf3d24OQ5ce\nSCPCEfwOtOjX+SmBcYqCe6nBZ25ykzxQXz1pAudftTsBjys3Lx2GB12mcoaBaAIE\nCUbprIdoHQKBgQCQcujCjw6Gf+tj9txAw8w1Jyur4DVpw8doaewAe7e3QdfiWKCa\nOJk6TDECWULnomLF0Gu89+V4jVdcXezfIMdGu8lHNN21eeyW2l4rppZnQVvpHKUj\n6yR6y+Iauspp6sTnHucB4kiMAep31K7auXo9VZ8CaMFEyKG3Qsf2znVohQKBgBFZ\nmY2Nn7+suaYD7FD6aq3hTa1uAtF4NHoSe8cL/vOBVWLniAiw+uUowmzaaZC+CEOR\nXkeqwTRY2D6qd4mclmDnn0oFvavGOoF4XMCgTEefu7wyv5KO6Ja2pLLfIUtWeqaN\nqXRqzu2KxiZgebHmIZNpquEFDZ4VA0EK9uo5/Ke9AoGAO3scO9O74uLDOvC4HBnR\nH5oRakYxJ6Qf6Ij/RfLPRmNs2v0h4Wrek3kthqURHlL8Wr1yQaspLcnJkVciNXhv\nKDtdbtNLCWxXtWNUo79IsOpVNxqSJorAfUTHWaUn/FtGY8lKQsajP1Dj6L6rjEAL\nvSdDnnQMr/22TnYKDXVE/HM=\n-----END PRIVATE KEY-----\n",
+  "client_email": "stonesoup@stonesoup-182208.iam.gserviceaccount.com",
+  "client_id": "115514110189426041125",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://accounts.google.com/o/oauth2/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/stonesoup%40stonesoup-182208.iam.gserviceaccount.com"
+}
