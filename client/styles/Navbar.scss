@@ -1,34 +1,35 @@
 @import '~styles/main';
 
 .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    
-    height: 50px;
-    background-color: $green;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  height: 50px;
+  background-color: $green;
 }
 
 .editProfile {
-    padding: 10px;
-    height: 25px;
-    width: 25px;
+  padding: 10px;
+  height: 25px;
+  width: 25px;
 
-    &:hover {
-        cursor: pointer;
-    }
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .logo {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 
-    p {
-        margin: 0 10px;
-        font-size: 24px;
-        color: $white;
-    }
+  h1 {
+    margin: 0 10px;
+    font-size: 24px;
+    color: $white;
+  }
 
+<<<<<<< Updated upstream
     img {
         height: 25px;
         width: 25px;
@@ -38,3 +39,10 @@
         cursor: pointer;
     }
 }
+=======
+  img {
+    height: 25px;
+    width: 25px;
+  }
+}
+>>>>>>> Stashed changes

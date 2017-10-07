@@ -3,25 +3,27 @@ import PropTypes from 'prop-types';
 import s from '../styles/Navbar.scss';
 
 
-const Navbar = ({ handleEditRestaurant, handleHomeNavigation }) => {
-    return (
-        <div className={s.navbar}>
-            <div className={s.logo} onClick={handleHomeNavigation}>
-                <h1>Stone Soup</h1>
-                <img src="images/stonesoup.svg"/>
-            </div>
-            <img
-                src="/images/settings.svg"
-                className={s.editProfile}
-                onClick={handleEditRestaurant}
-            />
-        </div>
-    )
+const Navbar = ({ redirectTo }) => {
+  return (
+    <div className={s.navbar}>
+      <div
+        className={s.logo}
+        onClick={() => redirectTo('/menu')}
+      >
+        <img src="images/stonesoup.svg"/>
+        <h1>Stone Soup</h1>
+      </div>
+      <img
+        src="/images/settings.svg"
+        className={s.editProfile}
+        onClick={() => redirectTo('/restaurant/edit')}
+      />
+    </div>
+  )
 }
 
 Navbar.propTypes = {
-    handleEditRestaurant: PropTypes.func.isRequired,
-    handleHomeNavigation: PropTypes.func.isRequired,
+  redirectTo: PropTypes.func.isRequired,
 };
 
 export default Navbar;
