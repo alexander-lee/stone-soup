@@ -2,11 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-
-import Modal from '../components/Modal';
 import LoginPage from './LoginPage';
 
-// import { getUser } from '../actions/user-actions';
+import { getUser } from '../actions/user-actions';
 
 class App extends Component {
   componentDidMount() {
@@ -15,8 +13,7 @@ class App extends Component {
 
   renderMain = () => {
     return (
-      <div className="index-wrapper">
-        <SideBar />
+      <div>
         { this.props.children }
       </div>
     );
@@ -24,12 +21,14 @@ class App extends Component {
 
   render() {
     let body;
-    if(this.props.user.loggedIn) {
+    if (!this.props.user) {
+      body = <div />; // LOADING
+    }
+    else {
       body = this.renderMain();
     }
-    else if(window.location.pathname === '/login') {
-      body = <LoginPage />;
-    }
+
+    return body;
   }
 }
 

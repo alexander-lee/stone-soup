@@ -2,7 +2,7 @@ import bcrypt from 'bcryptjs';
 import passport from 'passport';
 import _ from 'lodash';
 
-import { User } from '../models';
+import { Restaurant } from '../models';
 import auth from '../config/auth';
 
 const LocalStrategy = require('passport-local').Strategy;
@@ -14,7 +14,7 @@ passport.serializeUser(function(user, done){
 
 passport.deserializeUser(async function(id, done) {
   try {
-    const user = await User.findById(id);
+    const user = await Restaurant.findById(id);
     done(null, user);
   }
   catch(err) {
@@ -27,7 +27,7 @@ passport.use(new GoogleStrategy(auth.google,
   function(accessToken, refreshToken, profile, done) {
     process.nextTick(async function() {
       try {
-        let user = await User.findOne({ where: { googleId: profile.id } });
+        let user = await Restaurant.findOne({ where: { googleId: profile.id } });
 
         const fields = {
           email: _.get(profile, 'emails[0].value'),
@@ -36,7 +36,7 @@ passport.use(new GoogleStrategy(auth.google,
         }
 
         if(!user) {
-          user = await User.create({
+          user = await Restaurant.create({
             googleId: profile.id,
             ...fields
           });
@@ -58,17 +58,12 @@ passport.use(new GoogleStrategy(auth.google,
 */
 
 passport.use('local', new LocalStrategy(
-  {
-    usernameField: 'username',
-    passwordField: 'password',
-  },
   async function(username, password, done) {
     try {
-      const user = await User.findOne({ where: {username: username} });
-
-      // User doesn't exist
+      const user = await Restaurant.findOne({username: username});
+      // Restaurant doesn't exist
       if(!user) {
-        return done(null, false, {message: 'No User Found!'});
+        return done(null, false, {message: 'No Restaurant User Found!'});
       }
 
       // User password doesn't match

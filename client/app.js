@@ -14,7 +14,10 @@ import { store, history } from './create-store';
 ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
-      <Route path="/menu" component={MenuPage} />
+      <Route path="/" component={App}>
+        <IndexRoute component={LoginPage} />
+        <Route path="menu" component={MenuPage} />
+      </Route>
       <Route path="*" component={ErrorPage} />
     </Router>
   </Provider>,

@@ -46,8 +46,10 @@ async function request(url, userOptions, dispatch) {
 
 const wrapper = {};
 ['get', 'post', 'put', 'delete'].forEach((method) => {
-  wrapper[method] = (url, options = {}) => {
+  wrapper[method] = (url, options = {}, dispatch) => {
     options.method = method;
-    return request(url, options);
+    return request(url, options, dispatch);
   };
 });
+
+export default wrapper;

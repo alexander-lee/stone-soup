@@ -83,7 +83,8 @@ export default {
         use: {
           loader: 'url-loader',
           options: {
-            limit: 8192, prefix: '/'
+            limit: 8192,
+            prefix: '/'
           }
         }
       }
