@@ -2,7 +2,7 @@ import gulp from 'gulp';
 import source from 'vinyl-source-stream';
 import notify from 'gulp-notify';
 import nodemon from 'gulp-nodemon';
-import webpack from 'gulp-webpack';
+import webpack from 'webpack-stream';
 import sass from 'gulp-sass';
 import postcss from 'gulp-postcss';
 import imagemin from 'gulp-imagemin';

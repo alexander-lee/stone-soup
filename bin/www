@@ -8,7 +8,6 @@ var app = require('../dist/app');
 var debug = require('debug')('MERN-Boilerplate:server');
 var http = require('http');
 
-var migrations = require('../dist/migrations/run-migrations');
 
 /**
  * Get port from environment and store in Express.
@@ -21,9 +20,7 @@ app.set('port', port);
  * Create HTTP server.
  */
 
-if(process.env.NODE_ENV === 'production') {
-  migrations.runMigrations();
-}
+
 
 var server = http.createServer(app);
 server.listen(port);

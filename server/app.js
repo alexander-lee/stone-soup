@@ -9,7 +9,7 @@ import passport from 'passport';
 import compression from 'compression';
 import RateLimit from 'express-rate-limit';
 import mongoose from 'mongoose';
-import config from 'config/config';
+import config from './config/config';
 
 const app = express();
 const credentials = config[process.env.NODE_ENV || 'development'];

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Redirect} from 'react-router';
+
 
 import Modal from '../components/Modal';
 import LoginPage from './LoginPage';
@@ -22,13 +24,15 @@ class App extends Component {
   }
 
   render() {
-    let body;
-    if(this.props.user.loggedIn) {
-      body = this._renderMain();
-    }
-    else if(window.location.pathname === '/login') {
-      body = <LoginPage />;
-    }
+    
+    return <div> App </div>;
+    // let body;
+    // if(this.props.user.loggedIn) {
+    //   body = this._renderMain();
+    // }
+    // else if(window.location.pathname === '/login') {
+    //   body = <LoginPage />;
+    // }
   }
 }
 
