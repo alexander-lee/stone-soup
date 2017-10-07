@@ -29,5 +29,35 @@ a {
 }
 
 input {
+  margin: 10px;
+  padding: 5px 0;
+  border: 0;
+  font-family: BentonSans, serif;
+  font-size: 18px;
+  outline: none;
+  border-bottom: 2px solid transparent;
+  transition: border 200ms ease-in-out;
 
+  &:focus, &:hover {
+    border-color: $light-gray;
+  }
+
+  &::-webkit-input-placeholder {
+    color: $light-gray;
+  }
+}
+
+button {
+  display: block;
+  height: 40px;
+  width: 200px;
+  margin: 20px;
+  font-size: 16px;
+  font-family: BentonSans, serif;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-radius: 20px;
+  background-color: $green;
+  color: $white;
 }
