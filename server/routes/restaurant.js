@@ -38,7 +38,7 @@ router.post('/create', async (req, res) => {
   }
   catch (error) {
     res.status(400).send({
-      err: error
+      error
     });
   }
 });
