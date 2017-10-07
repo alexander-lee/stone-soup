@@ -15,7 +15,7 @@ class App extends Component {
 
   renderMain = () => {
     return (
-      <div className="index-wrapper">
+      <div>
         <SideBar />
         { this.props.children }
       </div>

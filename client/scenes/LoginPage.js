@@ -7,6 +7,8 @@ import _ from 'lodash';
 
 import { getUser } from '../actions/user-actions';
 
+import s from '../styles/LoginPage.scss';
+
 class LoginPage extends Component {
   componentDidMount() {
     if(this.props.user.loggedIn) {
@@ -16,9 +18,20 @@ class LoginPage extends Component {
 
   render() {
     return (
-      <div>
-        <div className="login">
-          <a href="/auth/google"><img className="button" src="/images/google-button.png" alt="Login with Google"/></a>
+      <div className={s.container}>
+        <div className={s.loginContainer}>
+          <img src="images/stonesoup.svg" />
+          <p>Participate</p>
+          <input type="text" placeholder="Username" />
+          <input type="password" placeholder="Password" />
+          <button>Login</button>
+        </div>
+        <div className={s.imageContainer}>
+          <img src="images/landing.jpg" />
+          <div className={s.imageContent}>
+              <h1>Stone Soup</h1>
+              <p>sticks and stones make good bones.</p>
+          </div>
         </div>
       </div>
     );
