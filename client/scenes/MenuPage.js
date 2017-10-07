@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux'
+import _ from 'lodash';
 
 import Navbar from '../components/Navbar';
 import MenuItem from '../components/MenuItem';
@@ -36,7 +37,7 @@ class MenuPage extends Component {
     if (!this.props.userId && nextProps.userId) {
       this.props.getMenu(nextProps.userId);
     }
-    if (this.props.menu.length !== nextProps.menu.length) {
+    if (!_.isEqual(this.props.menu, nextProps.menu)) {
       this.setState({ menu: nextProps.menu });
     }
   }
@@ -47,6 +48,16 @@ class MenuPage extends Component {
     this.props.editMenu(this.props.userId, this.state.menu);
   };
 
+  handleAddClick = () => {
+    const newItems = this.state.menu;
+    newItems.push({ name: 'Food', servings: 1 });
+
+    this.setState({
+      menu: newItems,
+      isDirty: true,
+    });
+  }
+
   handleDeleteClick = (index) => {
     const newItems = [...this.state.menu];
     newItems.splice(index, 1);
@@ -55,6 +66,15 @@ class MenuPage extends Component {
       isDirty: true,
     });
   };
+
+  handleNameEdit = (name, index) => {
+    const newItems = [...this.state.menu];
+    newItems[index].name = name;
+    this.setState({
+      menu: newItems,
+      isDirty: true,
+    });
+  }
 
   handleServingsEdit = (servings, index) => {
     const newItems = [...this.state.menu];
@@ -66,26 +86,42 @@ class MenuPage extends Component {
   }
 
   renderMenuItems = () => {
-    return this.state.menu.map((item, index) => {
+    const menuItems = this.state.menu.map((item, index) => {
       return (
         <MenuItem
           name={item.name}
           servings={item.servings}
-          key={index}
+          key={`${index}-menu-item`}
           handleDeleteClick={() => this.handleDeleteClick(index)}
+          handleNameEdit={(name) => this.handleNameEdit(name, index)}
           handleServingsEdit={(quantity) => this.handleServingsEdit(quantity, index)}
         />
       );
     });
+
+    return [
+      <div className={s.menuHeader} key="header">
+        <div>Name</div>
+        <div>Servings</div>
+      </div>
+    ].concat(menuItems)
   };
 
   render() {
     return (
-      <div>
-        <p>Menu Page</p>
+      <div className={s.container}>
+        <div className={s.banner}>
+          <h1 className={s.menuPageHeader}>Menu</h1>
+        </div>
         <div className={s.menuItemContainer}>
           { this.renderMenuItems() }
         </div>
+        <button
+          className={s.addButton}
+          onClick={this.handleAddClick}
+        >
+          +
+        </button>
         <div className={s.saveButtonContainer}>
           <SaveButton
             inProp={this.state.isDirty}
@@ -100,7 +136,7 @@ class MenuPage extends Component {
 const mapStateToProps = (state) => {
   return {
     userId: state.app.user.id,
-    menu: state.app.restaurant.menu
+    menu: state.app.user.menu
   };
 }
 

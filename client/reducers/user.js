@@ -8,6 +8,10 @@ import {
   EDIT_USER_ERROR,
 } from '../actions/user-actions';
 
+import {
+  GET_MENU,
+} from '../actions/restaurant-actions';
+
 const initialState = {
   loggedIn: false
 }
@@ -17,11 +21,14 @@ export default function(state = initialState, action) {
     case GET_USER:
       return {
         ...state,
+        ...action.user,
+        id: action.user._id,
         loggedIn: Boolean(action.user),
       };
     case LOGIN_USER_SUCCESS:
       return {
         ...state,
+        ...action.restaurant,
         loggedIn: true,
         loginUserError: false,
         id: action.restaurant._id,
@@ -52,6 +59,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         editUserSuccess: false,
+      };
+    case GET_MENU:
+      return {
+        ...state,
+        menu: action.menu,
       };
     default:
       return state;

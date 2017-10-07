@@ -10,7 +10,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 40%;
+  width: 30%;
   padding: 40px 0;
   background-color: darken($white, 2%);
 
@@ -30,8 +30,9 @@
     margin: 20px;
   }
 
-  button {
+  .loginButton {
     margin-top: 50px;
+    margin-bottom: 0;
   }
 
   input {
@@ -41,7 +42,7 @@
 
 .imageContainer {
   position: relative;
-  width: 60%;
+  width: 70%;
   overflow: hidden;
 
   img {
