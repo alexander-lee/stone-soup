@@ -9,4 +9,5 @@ const Client = new Schema({
   timestamps: true
 });
 
-export default mongoose.model('Client', Client);
+const client = mongoose.model('Client', Client);
+export default client;

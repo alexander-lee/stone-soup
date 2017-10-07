@@ -1,5 +1,6 @@
 import express from 'express';
 import bcrypt from 'bcryptjs';
+import schedulerFactory from '../utils/scheduler';
 import {
   Restaurant
 } from '../models';
@@ -73,10 +74,13 @@ router.put('/edit/:id', async(req, res) => {
         throw new Error('pickupTimes needs to have 7 entries');
       }
 
-      for (let interval of body.pickupTimes) {
-        if (!interval.hasOwnProperty('startDate') || !interval.hasOwnProperty('endDate')) {
+      for (let interval in body.pickupTimes) {
+        if (!body.pickupTimes[interval].hasOwnProperty('startDate') || !body.pickupTimes[interval].hasOwnProperty('endDate')) {
           throw new Error('pickupTimes needs to have intervals with startDate and endDate');
-        }
+        } else {
+      	  const scheduledAlert = schedulerFactory(body.pickupTimes[interval].startDate, interval, req.params.id);
+      	  scheduledAlert.start();
+      	}
       }
     }
     if (body.hasOwnProperty('menu')) {
@@ -103,6 +107,10 @@ router.put('/edit/:id', async(req, res) => {
         restaurant.dietaryRestrictions[restriction] = body.dietaryRestrictions[restriction];
       }
     }
+
+    // restaurant.validate((err) => {
+
+    // });
 
     await restaurant.save();
 
