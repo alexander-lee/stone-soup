@@ -1,9 +1,32 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 class EditRestaurauntPage extends Component {
-    render() {
-        return <div>Edit Restauraunt Page</div>;
-    }
+
+  static propTypes = {
+
+  };
+
+
+
+  render() {
+    return (
+      <div>Edit Restauraunt Page</div>
+    );
+  }
 }
 
-export default EditRestaurauntPage;
+const mapStateToProps = (state) => {
+  return {
+    ...state.app.user
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditRestaurauntPage);

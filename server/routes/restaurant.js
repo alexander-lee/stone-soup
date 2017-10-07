@@ -7,7 +7,7 @@ import {
 const router = express.Router();
 
 const SALT_WORK_FACTOR = 10;
-const uneditableKeys = ['_id', 'username', 'password', 'createdAt', 'updatedAt', 'dietaryRestrictions'];
+const uneditableKeys = ['_id', 'username', 'password', 'name', 'createdAt', 'updatedAt', 'dietaryRestrictions'];
 const dietaryRestrictions = Object.keys(Restaurant.schema.tree.dietaryRestrictions);
 
 /*
@@ -32,6 +32,7 @@ router.post('/create', async(req, res) => {
     const data = {
       username: body.username,
       password: bcrypt.hashSync(body.password, salt),
+      name: body.name
     };
     const newRestaurant = new Restaurant(data);
     await newRestaurant.save();
@@ -72,11 +73,9 @@ router.put('/edit/:id', async(req, res) => {
         throw new Error('pickupTimes needs to have 7 entries');
       }
 
-      for (let day of body.pickupTimes) {
-        for (let interval of day) {
-          if (!interval.hasOwnProperty('startDate') || !interval.hasOwnProperty('endDate')) {
-            throw new Error('pickupTimes needs to have intervals with startDate and endDate');
-          }
+      for (let interval of body.pickupTimes) {
+        if (!interval.hasOwnProperty('startDate') || !interval.hasOwnProperty('endDate')) {
+          throw new Error('pickupTimes needs to have intervals with startDate and endDate');
         }
       }
     }
@@ -96,7 +95,7 @@ router.put('/edit/:id', async(req, res) => {
 
     // Update dietaryRestrictions separately
     if (body.hasOwnProperty('dietaryRestrictions')) {
-      for (let restriction of body.dietaryRestrictions) {
+      for (let restriction in body.dietaryRestrictions) {
         if (!dietaryRestrictions.includes(restriction)) {
           continue;
         }
