@@ -10,7 +10,7 @@ const Navbar = ({ handleEditProfile }) => {
     return (
         <div className={s.navbar}>
             <div className={s.logo}>
-                <p>Stone Soup</p>
+                <h1>Stone Soup</h1>
                 <img src="images/stonesoup.svg"/>
             </div>
             <img
