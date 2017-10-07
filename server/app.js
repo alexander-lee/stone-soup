@@ -9,9 +9,6 @@ import passport from 'passport';
 import compression from 'compression';
 import RateLimit from 'express-rate-limit';;
 
-const SequelizeStore = require('connect-session-sequelize')(session.Store);
-const sequelize = require('./models').sequelize;
-
 let app = express();
 
 //============ VIEW ===========
@@ -26,19 +23,15 @@ app.use(bodyParser.urlencoded({ extended: false })); // parse application/x-www-
 app.use(cookieParser());
 app.use(compression());
 
-// Create Sequelize Store
-const store = new SequelizeStore({ db: sequelize });
+// Create Seq
 app.use(session({
   secret: 'super secret token',
   resave: false,
   saveUninitialized: true,
   cookie: {
     maxAge: 3600 * 1000
-  },
-  store: store
+  }
 }));
-
-store.sync();
 
 // Passport
 require('./utils/passport-setup');
