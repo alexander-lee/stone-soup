@@ -1,5 +1,5 @@
 import {
-  GET_USER,
+  LOGIN_USER
 } from '../actions/user-actions';
 
 const initialState = {
@@ -8,10 +8,15 @@ const initialState = {
 
 export default function(state = initialState, action) {
   switch(action.type) {
-    case GET_USER:
+    // case GET_USER:
+    //   return {
+    //     loggedIn: Boolean(action.user),
+    //     ...action.user,
+    //   };
+    case LOGIN_USER:
       return {
-        loggedIn: Boolean(action.user),
-        ...action.user,
+        loggedIn: true,
+        ...action.user
       };
     default:
       return state;

@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 import { push } from 'react-router-redux';
 import _ from 'lodash';
 
-import { getUser } from '../actions/user-actions';
+import { login } from '../actions/user-actions';
 
 import s from '../styles/LoginPage.scss';
 
@@ -16,15 +16,22 @@ class LoginPage extends Component {
     }
   }
 
+  onLogin = () => {
+    const username = this.refs.username;
+    const password = this.refs.password;
+
+    this.props.dispatch(login(username, password));
+  }
+
   render() {
     return (
       <div className={s.container}>
         <div className={s.loginContainer}>
           <img src="images/stonesoup.svg" />
           <p>Participate</p>
-          <input type="text" placeholder="Username" />
-          <input type="password" placeholder="Password" />
-          <button>Login</button>
+          <input type="text" placeholder="Username" ref="username" />
+          <input type="password" placeholder="Password" ref="password" />
+          <button onClick={this.onLogin}>Login</button>
         </div>
         <div className={s.imageContainer}>
           <img src="images/landing.jpg" />
