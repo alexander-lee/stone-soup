@@ -11,7 +11,10 @@ const Navbar = ({ router }) => {
 
     return (
         <div className={s.navbar}>
-            <p className={s.logo}>Stone Soup</p>
+            <div className={s.logo}>
+                <p>Stone Soup</p>
+                <img src="images/stonesoup.svg"/>
+            </div>
             <img
                 src="/images/settings.svg"
                 className={s.editProfile}

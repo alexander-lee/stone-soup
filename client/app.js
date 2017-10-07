@@ -8,13 +8,16 @@ import LoginPage from './scenes/LoginPage';
 import LandingPage from './scenes/LandingPage';
 import ErrorPage from './scenes/ErrorPage';
 import MenuPage from './scenes/MenuPage';
+import EditMenuPage from './scenes/EditMenuPage';
 
 import { store, history } from './create-store';
 
 ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
-      <Route path="/menu" component={MenuPage} />
+      <Route path="/menu" component={MenuPage}/>
+
+      <Route path="/menu/edit" component={EditMenuPage} />
       <Route path="*" component={ErrorPage} />
     </Router>
   </Provider>,

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Navbar from '../components/Navbar';
 import MenuItem from '../components/MenuItem';
+import s from '../styles/Menu.scss';
 
 class MenuPage extends Component {
 
@@ -34,6 +35,10 @@ class MenuPage extends Component {
 
     };
 
+    handleClick = () => {
+        this.props.router.push('/menu/edit');
+    };
+
     renderMenuItems = () => {
         return this.props.menuItems.map((item, index) => {
             return (
@@ -51,8 +56,11 @@ class MenuPage extends Component {
             <div>
                 <Navbar router={this.props.router}/>
                 <p>Menu Page</p>
-                <div>
+                <div className={s.menuItemContainer}>
                     { this.renderMenuItems() }
+                </div>
+                <div onClick={this.handleClick} className={s.editMenuButton}>
+                    Edit Menu
                 </div>
             </div>
         );
