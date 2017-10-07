@@ -7,7 +7,7 @@ import {
 const router = express.Router();
 
 const SALT_WORK_FACTOR = 10;
-const uneditableKeys = ['_id', 'username', 'password', 'createdAt', 'updatedAt', 'dietaryRestrictions'];
+const uneditableKeys = ['_id', 'username', 'password', 'name', 'createdAt', 'updatedAt', 'dietaryRestrictions'];
 const dietaryRestrictions = Object.keys(Restaurant.schema.tree.dietaryRestrictions);
 
 /*
@@ -32,6 +32,7 @@ router.post('/create', async(req, res) => {
     const data = {
       username: body.username,
       password: bcrypt.hashSync(body.password, salt),
+      name: body.name
     };
     const newRestaurant = new Restaurant(data);
     await newRestaurant.save();
