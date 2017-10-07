@@ -7,8 +7,11 @@ import passport from 'passport';
 */
 export default async function(type, req, res, next){
   try {
-    const user = await authenticate(type);
+    console.log('test1');
+    const user = await authenticate(type, req, res, next);
+    console.log('user');
     const response = await login(user, req, res, next);
+    console.log(response);
     res.status(200).send(response);
   }
   catch(err) {
@@ -22,7 +25,7 @@ export default async function(type, req, res, next){
   - Authenticates via Passport at specified strategy by @param type
   - Returns a Promise that if resolved, returns the user
 */
-function authenticate(type) {
+function authenticate(type, req, res, next) {
   return new Promise(function(resolve, reject){
     // Use passport to authenticate
     passport.authenticate(type, function(err, user, info){
@@ -35,7 +38,7 @@ function authenticate(type) {
       else {
         resolve(user);
       }
-    });
+    })(req, res, next);
   });
 }
 
@@ -50,7 +53,7 @@ function login(user, req, res, next) {
       if(!err) {
         resolve({
           user: user,
-          redirectTo: '/',
+          redirectTo: '/menu',
         });
       }
       else {

@@ -36,7 +36,12 @@ export const LOGIN_USER = 'LOGIN_USER';
 
 export function login(username, password) {
   return async function(dispatch) {
-    const response = await fetcher.post('/login');
+    const body = {
+      username,
+      password
+    }
+
+    const response = await fetcher.post('/login', { body });
 
     Cookies.set('user', response.user, { expires: 3600 });
     dispatch({

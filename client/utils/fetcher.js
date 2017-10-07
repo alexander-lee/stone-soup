@@ -51,3 +51,5 @@ const wrapper = {};
     return request(url, options);
   };
 });
+
+export default wrapper;

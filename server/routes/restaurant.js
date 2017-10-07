@@ -11,12 +11,12 @@ const dietaryRestrictions = Object.keys(Restaurant.schema.tree.dietaryRestrictio
 /*
   Request Body: {
     username: String,
-    password: String,  
+    password: String,
   }
 */
 router.post('/create', async (req, res) => {
   const body = req.body;
-  
+
   try {
     // check if username already exists
     const restaurant = await Restaurant.find({ username: body.username });
@@ -33,7 +33,7 @@ router.post('/create', async (req, res) => {
     await newRestaurant.save();
 
     res.status(200).send({
-      newRestaurant
+      restaurant: newRestaurant
     });
   }
   catch (error) {
