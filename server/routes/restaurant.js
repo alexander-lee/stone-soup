@@ -67,7 +67,6 @@ router.put('/edit/:id', async(req, res) => {
   const properties = Object.keys(Restaurant.schema.tree)
     .filter((key) => !uneditableKeys.includes(key));
   const body = req.body;
-  console.log(body);
   try {
     // Error Handling
     if (body.hasOwnProperty('pickupTimes')) {
@@ -75,16 +74,13 @@ router.put('/edit/:id', async(req, res) => {
         throw new Error('pickupTimes needs to have 7 entries');
       }
 
-      for (let day of body.pickupTimes) {
-        for (let interval of day) {
-          if (!interval.hasOwnProperty('startDate') || !interval.hasOwnProperty('endDate')) {
-            throw new Error('pickupTimes needs to have intervals with startDate and endDate');
-          } else {
-            const scheduledAlert = schedulerFactory(interval.startDate);
-            // scheduledAlert.start();
-            console.log('asdfa');
-          }
-        }
+      for (let interval in body.pickupTimes) {
+        if (!body.pickupTimes[interval].hasOwnProperty('startDate') || !body.pickupTimes[interval].hasOwnProperty('endDate')) {
+          throw new Error('pickupTimes needs to have intervals with startDate and endDate');
+        } else {
+      	  const scheduledAlert = schedulerFactory(body.pickupTimes[interval].startDate, interval, req.params.id);
+      	  scheduledAlert.start();
+      	}
       }
     }
     if (body.hasOwnProperty('menu')) {

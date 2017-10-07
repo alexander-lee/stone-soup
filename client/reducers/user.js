@@ -4,6 +4,8 @@ import {
   LOGIN_USER_ERROR,
   CREATE_USER_SUCCESS,
   CREATE_USER_ERROR,
+  EDIT_USER_SUCCESS,
+  EDIT_USER_ERROR,
 } from '../actions/user-actions';
 
 const initialState = {
@@ -22,7 +24,7 @@ export default function(state = initialState, action) {
         ...state,
         loggedIn: true,
         loginUserError: false,
-        id: action.user._id,
+        id: action.restaurant._id,
       };
     case LOGIN_USER_ERROR:
       return {
@@ -39,6 +41,17 @@ export default function(state = initialState, action) {
       return {
         ...state,
         createUserError: false,
+        user: action.restaurant,
+      };
+    case EDIT_USER_SUCCESS:
+      return {
+        ...state,
+        editUserSuccess: true,
+      };
+    case EDIT_USER_ERROR:
+      return {
+        ...state,
+        editUserSuccess: false,
       };
     default:
       return state;

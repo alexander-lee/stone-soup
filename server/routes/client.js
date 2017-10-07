@@ -15,6 +15,13 @@ router.post('/register', async (req, res) => {
   const client = await Client.findOne({ phoneNumber: req.body.From });
   const state = req.session.state ? req.session.state : 'unregistered';
 
+  /* EXPERIEMNTAL */
+  if (req.body.Body === 'erase') {
+    req.session.destroy();
+    console.log('destroyed');
+    res.sendStatus(200);
+  }
+
   // branch based off of current state
   if (state === 'unregistered') {
     responder.message('Welcome to Stone Soup! Start registering by providing your zipcode!');
@@ -58,7 +65,7 @@ router.post('/register', async (req, res) => {
         return response.json();
       })
       .then(async (data) => {
-        const nearbyRestaurants = await Restaurant.find({ 
+        const nearbyRestaurants = await Restaurant.find({
           location: { $in: data.zip_codes },
           'dietaryRestrictions.vegan': restrictions.vegan,
           'dietaryRestrictions.glutenfree': restrictions.glutenfree,
@@ -67,7 +74,7 @@ router.post('/register', async (req, res) => {
           'dietaryRestrictions.egg': restrictions.egg,
           'dietaryRestrictions.seafood': restrictions.seafood
         });
-        
+
         // send a message with the nearbyRestaurants (and zipcode) back!
         response = "Here's a list of restaurants that meet your criteria. Please respond with the restaurants that you're interested in subscribing to!\n\n";
         for (let restr in nearbyRestaurants) {
@@ -77,7 +84,7 @@ router.post('/register', async (req, res) => {
       });
     req.session.state = 'register';
     responder.message(response);
-  } else if (state == 'register') {
+  } else if (state === 'register') {
     const body = req.body.Body.trim().split(',');
 
     // fill out client data for this client
@@ -89,7 +96,7 @@ router.post('/register', async (req, res) => {
     for (let restr of body) {
       data.subscribedRestaurants.push(req.session.mapping[restr]);
     }
-    
+
     // save client to db
     const newClient = new Client(data);
     await newClient.save();

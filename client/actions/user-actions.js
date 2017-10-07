@@ -11,6 +11,8 @@ export const LOGIN_USER_SUCCESS = 'LOGIN_USER_SUCCESS';
 export const LOGIN_USER_ERROR = 'LOGIN_USER_ERROR';
 export const CREATE_USER_SUCCESS = 'CREATE_USER_SUCCESS';
 export const CREATE_USER_ERROR = 'CREATE_USER_ERROR';
+export const EDIT_USER_SUCCESS = 'EDIT_USER_SUCCESS';
+export const EDIT_USER_ERROR = 'EDIT_USER_ERROR';
 
 export function getUser() {
   return async function(dispatch, getState) {
@@ -76,9 +78,35 @@ export function createUser(username, password) {
     } else {
       dispatch({
         type: CREATE_USER_SUCCESS,
-        user: response.user,
+        restaurant: response.restaurant,
       });
     }
-
   }
 }
+
+export const editUser = (userId, location, name, pickupTimes, dietaryRestrictions) => {
+  return async(dispatch) => {
+    const body = {
+      location,
+      name,
+      pickupTimes,
+      dietaryRestrictions,
+    };
+    console.log(userId, location, name, pickupTimes, dietaryRestrictions);
+
+    const response = await fetcher.put(`/api/restaurant/edit/${userId}`, { body }, dispatch);
+    if (response.error) {
+      dispatch({
+        type: EDIT_USER_ERROR,
+        error: response.error,
+      });
+    } else {
+      dispatch({
+        type: EDIT_USER_SUCCESS,
+        restaurant: response.restaurant,
+      });
+    }
+  }
+}
+
+

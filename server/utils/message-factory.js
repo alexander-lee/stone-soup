@@ -4,8 +4,8 @@ const Restaurant = require('../models/restaurant');
 
 const notificationWorkerFactory = function() {
   return {
-    run: function() {
-      Restaurant.sendNotifications();
+    run: function(jobID) {
+      Restaurant.sendNotifications(jobID);
     },
   };
 };
