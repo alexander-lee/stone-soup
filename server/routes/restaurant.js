@@ -5,7 +5,7 @@ import { Restaurant } from '../models';
 const router = express.Router();
 
 const SALT_WORK_FACTOR = 10;
-const uneditableKeys = ['_id', 'username', 'password', 'createdAt', 'updatedAt', 'dietaryRestrictions'];
+const uneditableKeys = ['_id', 'username', 'password', 'name', 'createdAt', 'updatedAt', 'dietaryRestrictions'];
 const dietaryRestrictions = Object.keys(Restaurant.schema.tree.dietaryRestrictions);
 
 /*
@@ -28,6 +28,7 @@ router.post('/create', async (req, res) => {
     const data = {
       username: body.username,
       password: bcrypt.hashSync(body.password, salt),
+      name: body.name
     };
     const newRestaurant = new Restaurant(data);
     await newRestaurant.save();
@@ -81,7 +82,7 @@ router.put('/edit/:id', async (req, res) => {
 
     const restaurant = await Restaurant.findById(req.params.id);
 
-    for (key of properties) {
+    for (let key of properties) {
       if (body.hasOwnProperty(key)) {
         restaurant[key] = body[key];
       }
@@ -89,7 +90,7 @@ router.put('/edit/:id', async (req, res) => {
 
     // Update dietaryRestrictions separately
     if (body.hasOwnProperty('dietaryRestrictions')) {
-      for (restriction of body.dietaryRestrictions) {
+      for (let restriction in body.dietaryRestrictions) {
         if (!dietaryRestrictions.includes(restriction)) {
           continue;
         }
