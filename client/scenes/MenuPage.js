@@ -54,11 +54,18 @@ class MenuPage extends Component {
             menuItems: newItems,
             isDirty: true,
         });
-    }
-
-    handleEditProfile = () => {
-        this.props.router.push('/profile/edit');
     };
+
+    handleServingsEdit = (servings, index) => {
+        console.log(servings);
+        console.log(index);
+        const newItems = [...this.state.menuItems];
+        newItems[index].servings = servings;
+        this.setState({
+            menuItems: newItems,
+            isDirty: true,
+        });
+    }
 
     renderMenuItems = () => {
         return this.state.menuItems.map((item, index) => {
@@ -68,6 +75,7 @@ class MenuPage extends Component {
                     servings={item.servings}
                     key={index}
                     handleDeleteClick={() => this.handleDeleteClick(index)}
+                    handleServingsEdit={(quantity) => this.handleServingsEdit(quantity, index)}
                 />
             );
         });
@@ -77,7 +85,6 @@ class MenuPage extends Component {
 
         return (
             <div>
-                <Navbar handleEditProfile={this.handleEditProfile}/>
                 <p>Menu Page</p>
                 <div className={s.menuItemContainer}>
                     { this.renderMenuItems() }

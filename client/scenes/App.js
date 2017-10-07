@@ -1,49 +1,22 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-
-
-import Modal from '../components/Modal';
-import LoginPage from './LoginPage';
-
-// import { getUser } from '../actions/user-actions';
+import Navbar from '../components/Navbar';
 
 class App extends Component {
-  componentDidMount() {
-    this.props.getUser();
-  }
 
-  renderMain = () => {
-    return (
-      <div className="index-wrapper">
-        <SideBar />
-        { this.props.children }
-      </div>
-    );
-  }
+  handleEditRestaurant = () => {
+      this.props.router.push('/restaurant/edit');
+  };
 
   render() {
-    let body;
-    if(this.props.user.loggedIn) {
-      body = this.renderMain();
-    }
-    else if(window.location.pathname === '/login') {
-      body = <LoginPage />;
-    }
+      return (
+        <div>
+          <Navbar handleEditRestaurant={this.handleEditRestaurant}/>
+          { this.props.children }
+        </div>
+      );
   }
 }
 
-function mapStateToProps(state) {
-  const user = _.get(state, 'app.user');
-  return { user };
-}
+export default App;
 
-function mapDispatchToProps(dispatch) {
-  return {
-    getUser: () => {
-      dispatch(getUser());
-    }
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
