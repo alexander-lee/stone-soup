@@ -6,7 +6,6 @@
     "start": "gulp"
   },
   "dependencies": {
-    "@google-cloud/datastore": "^1.1.0",
     "autoprefixer": "^7.1.1",
     "babel-core": "^6.10.4",
     "babel-loader": "^7.1.2",
