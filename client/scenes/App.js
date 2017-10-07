@@ -19,7 +19,7 @@ class App extends Component {
   renderMain = () => {
     return (
       <div>
-        { this.props.user.loggedIn && <Navbar redirectTo={this.redirectTo} /> }
+        { location.pathname !== '/' && <Navbar redirectTo={this.redirectTo} /> }
         { this.props.children }
       </div>
     );

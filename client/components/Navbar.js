@@ -13,11 +13,13 @@ const Navbar = ({ redirectTo }) => {
         <img src="images/stonesoup.svg"/>
         <h1>Stone Soup</h1>
       </div>
-      <img
-        src="/images/settings.svg"
-        className={s.editProfile}
+      <div
+        className={s.navbarItem}
         onClick={() => redirectTo('/restaurant/edit')}
-      />
+      >
+        <i className="fa fa-gear" />
+        <p>Edit Profile </p>
+      </div>
     </div>
   )
 }
