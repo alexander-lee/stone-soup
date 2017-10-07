@@ -1,5 +1,6 @@
 import {
   GET_USER,
+  LOGIN_USER
 } from '../actions/user-actions';
 
 const initialState = {
@@ -12,6 +13,11 @@ export default function(state = initialState, action) {
       return {
         loggedIn: Boolean(action.user),
         ...action.user,
+      };
+    case LOGIN_USER:
+      return {
+        loggedIn: true,
+        ...action.user
       };
     default:
       return state;

@@ -1,7 +1,9 @@
 import express from 'express';
 import bcrypt from 'bcryptjs';
-import { Restaurant } from '../models';
 import { schedulerFactory } from '../utils/scheduler';
+import {
+  Restaurant
+} from '../models';
 
 const router = express.Router();
 
@@ -15,12 +17,14 @@ const dietaryRestrictions = Object.keys(Restaurant.schema.tree.dietaryRestrictio
     password: String,
   }
 */
-router.post('/create', async (req, res) => {
+router.post('/create', async(req, res) => {
   const body = req.body;
 
   try {
     // check if username already exists
-    const restaurant = await Restaurant.find({ username: body.username });
+    const restaurant = await Restaurant.find({
+      username: body.username
+    });
     if (restaurant.length > 0) {
       throw new Error('A restaurant with this username already exists!');
     }
@@ -34,10 +38,9 @@ router.post('/create', async (req, res) => {
     await newRestaurant.save();
 
     res.status(200).send({
-      newRestaurant
+      restaurant: newRestaurant
     });
-  }
-  catch (error) {
+  } catch (error) {
     res.status(400).send({
       error
     });
@@ -51,11 +54,10 @@ router.post('/create', async (req, res) => {
     pickupTimes: [[{}]],
   }
 */
-router.put('/edit/:id', async (req, res) => {
+router.put('/edit/:id', async(req, res) => {
   const properties = Object.keys(Restaurant.schema.tree)
     .filter((key) => !uneditableKeys.includes(key));
   const body = req.body;
-
   try {
     // Error Handling
     if (body.hasOwnProperty('pickupTimes')) {
@@ -63,8 +65,8 @@ router.put('/edit/:id', async (req, res) => {
         throw new Error('pickupTimes needs to have 7 entries');
       }
 
-      for (day of body.pickupTimes) {
-        for (interval of day) {
+      for (let day of body.pickupTimes) {
+        for (let interval of day) {
           if (!interval.hasOwnProperty('startDate') || !interval.hasOwnProperty('endDate')) {
             throw new Error('pickupTimes needs to have intervals with startDate and endDate');
           } else {
@@ -74,17 +76,14 @@ router.put('/edit/:id', async (req, res) => {
         }
       }
     }
-
     if (body.hasOwnProperty('menu')) {
-      for (item of body.menu) {
+      for (let item of body.menu) {
         if (!item.hasOwnProperty('name') || !item.hasOwnProperty('servings')) {
           throw new Error('menu needs to have items with name and servings');
         }
       }
     }
-
     const restaurant = await Restaurant.findById(req.params.id);
-
     for (let key of properties) {
       if (body.hasOwnProperty(key)) {
         restaurant[key] = body[key];
@@ -93,7 +92,7 @@ router.put('/edit/:id', async (req, res) => {
 
     // Update dietaryRestrictions separately
     if (body.hasOwnProperty('dietaryRestrictions')) {
-      for (restriction of body.dietaryRestrictions) {
+      for (let restriction of body.dietaryRestrictions) {
         if (!dietaryRestrictions.includes(restriction)) {
           continue;
         }
@@ -107,9 +106,7 @@ router.put('/edit/:id', async (req, res) => {
     res.status(200).send({
       restaurant
     });
-  }
-  catch (error) {
-    console.log(error);
+  } catch (error) {
     res.status(400).send({
       error
     });

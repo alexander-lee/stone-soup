@@ -1,22 +1,33 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import Navbar from '../components/Navbar';
 import { connect } from 'react-redux';
-
-
-import Modal from '../components/Modal';
 import LoginPage from './LoginPage';
-
-// import { getUser } from '../actions/user-actions';
+import { getUser } from '../actions/user-actions';
 
 class App extends Component {
+
+
   componentDidMount() {
     this.props.getUser();
   }
+  
+  handleEditRestaurant = () => {
+      this.props.router.push('/restaurant/edit');
+  };
+
+  handleHomeNavigation = () => {
+      this.props.router.push('/menu');
+  };
+
 
   renderMain = () => {
     return (
-      <div className="index-wrapper">
-        <SideBar />
+      <div>
+        <Navbar
+            handleEditRestaurant={this.handleEditRestaurant}
+            handleHomeNavigation={this.handleHomeNavigation}
+          />
         { this.props.children }
       </div>
     );
@@ -24,14 +35,17 @@ class App extends Component {
 
   render() {
     let body;
-    if(this.props.user.loggedIn) {
+    if (!this.props.user) {
+      body = <div />; // LOADING
+    }
+    else {
       body = this.renderMain();
     }
-    else if(window.location.pathname === '/login') {
-      body = <LoginPage />;
-    }
+
+    return body;
   }
 }
+
 
 function mapStateToProps(state) {
   const user = _.get(state, 'app.user');
@@ -47,3 +61,4 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
+

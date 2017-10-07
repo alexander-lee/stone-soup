@@ -3,12 +3,14 @@ import PropTypes from 'prop-types';
 import Navbar from '../components/Navbar';
 import MenuItem from '../components/MenuItem';
 import SaveButton from '../components/SaveButton';
+import { connect } from 'react-redux';
+import { editMenu } from '../actions/restaurant-actions.js';
 import s from '../styles/Menu.scss';
 
 class MenuPage extends Component {
 
     static defaultProps = {
-        menuItems: [
+        menu: [
             {
                 name: 'Pizza',
                 servings: 10,
@@ -33,41 +35,51 @@ class MenuPage extends Component {
     };
 
     static propTypes = {
-        menuItems: PropTypes.arrayOf(PropTypes.object).isRequired,
+        menu: PropTypes.arrayOf(PropTypes.object).isRequired,
+        editMenu: PropTypes.func.isRequired,
     };
 
     state = {
         isDirty: false,
-        menuItems: this.props.menuItems,
+        menu: this.props.menu,
     };
 
 
     handleSaveClick = () => {
         // PUT here
         console.log('Save');
+        this.props.editMenu('59d8caf9cead366086cf7280', this.state.menu);
     };
 
     handleDeleteClick = (index) => {
-        const newItems = [...this.state.menuItems];
+        const newItems = [...this.state.menu];
         newItems.splice(index, 1);
         this.setState({
-            menuItems: newItems,
+            menu: newItems,
+            isDirty: true,
+        });
+    };
+
+    handleServingsEdit = (servings, index) => {
+        console.log(servings);
+        console.log(index);
+        const newItems = [...this.state.menu];
+        newItems[index].servings = servings;
+        this.setState({
+            menu: newItems,
             isDirty: true,
         });
     }
 
-    handleEditProfile = () => {
-        this.props.router.push('/profile/edit');
-    };
-
     renderMenuItems = () => {
-        return this.state.menuItems.map((item, index) => {
+        return this.state.menu.map((item, index) => {
             return (
                 <MenuItem
                     name={item.name}
                     servings={item.servings}
                     key={index}
                     handleDeleteClick={() => this.handleDeleteClick(index)}
+                    handleServingsEdit={(quantity) => this.handleServingsEdit(quantity, index)}
                 />
             );
         });
@@ -77,7 +89,6 @@ class MenuPage extends Component {
 
         return (
             <div>
-                <Navbar handleEditProfile={this.handleEditProfile}/>
                 <p>Menu Page</p>
                 <div className={s.menuItemContainer}>
                     { this.renderMenuItems() }
@@ -93,5 +104,18 @@ class MenuPage extends Component {
     }
 }
 
-export default MenuPage;
+const mapStateToProps = (state) => {
+    return state;
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        editMenu: (id, menu) => {
+            dispatch(editMenu(id, menu));
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MenuPage);
+
 

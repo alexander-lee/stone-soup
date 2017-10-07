@@ -36,6 +36,8 @@
         width: 50%;
         height: 100%;
         border-radius: 5px 0 0 5px;
+        line-height: 60px;
+        text-align: center;
     }
 
     .servings {
@@ -47,20 +49,34 @@
 
 
     .deleteButton {
-        float: right;
+        position: relative;
+        bottom: 59px;
+        left: 96.5%;
         z-index: 2;
         background-color: $white;
         font-size: rem(20px);
-        top: rem(-7px);
-        right: rem(-7px);
         border-radius: 60%;
         opacity: 0;
         transition: all 200ms ease-in-out;
 
         &:hover {
             font-size: rem(22px);
-            top: rem(-8px);
-            right: rem(-8px);
+        }
+    }
+
+    input {
+        height: 100%;
+        width: 100%;
+        border: 0;
+        margin: 0;
+        padding: 0;
+        border-radius: 5px;
+        outline: none;
+        text-align: center;
+        font-size: 16px;
+
+        &:hover, &:active {
+            outline: none;
         }
     }
 
