@@ -10,6 +10,7 @@ const Schema = mongoose.Schema;
 const Restaurant = new Schema({
   username: String,
   password: String,
+  name: String,
   numberOfServings: Number,
   menu: [{ name: String, servings: Number }],
   location: String,
@@ -49,6 +50,7 @@ const Restaurant = new Schema({
       }
     ]
   ],
+  subscribedClients: [Schema.Types.ObjectId],
   dietaryRestrictions: {
     vegan: Boolean,
     peanut: Boolean,

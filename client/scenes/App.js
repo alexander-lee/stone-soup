@@ -1,33 +1,25 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Navbar from '../components/Navbar';
 import { connect } from 'react-redux';
+import { push } from 'react-router-redux';
+
 import LoginPage from './LoginPage';
+import Navbar from '../components/Navbar';
 import { getUser } from '../actions/user-actions';
 
 class App extends Component {
-
-
   componentDidMount() {
     this.props.getUser();
   }
-  
-  handleEditRestaurant = () => {
-      this.props.router.push('/restaurant/edit');
-  };
 
-  handleHomeNavigation = () => {
-      this.props.router.push('/menu');
-  };
-
+  redirectTo = (url) => {
+    this.props.push(url);
+  }
 
   renderMain = () => {
     return (
       <div>
-        <Navbar
-            handleEditRestaurant={this.handleEditRestaurant}
-            handleHomeNavigation={this.handleHomeNavigation}
-          />
+        { location.pathname !== '/' && <Navbar redirectTo={this.redirectTo} /> }
         { this.props.children }
       </div>
     );
@@ -56,9 +48,11 @@ function mapDispatchToProps(dispatch) {
   return {
     getUser: () => {
       dispatch(getUser());
+    },
+    push: (url) => {
+      dispatch(push(url));
     }
   };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
-

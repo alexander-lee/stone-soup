@@ -62,6 +62,7 @@ app.use('/', require('./routes/index'));
 app.use('/', require('./routes/user'));
 app.use('/', require('./routes/sms'));
 app.use('/api/restaurant', require('./routes/restaurant'));
+app.use('/api/client', require('./routes/client'));
 
 app.use('*', require('./routes/index'));
 

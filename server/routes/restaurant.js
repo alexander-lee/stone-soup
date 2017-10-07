@@ -8,7 +8,7 @@ import {
 const router = express.Router();
 
 const SALT_WORK_FACTOR = 10;
-const uneditableKeys = ['_id', 'username', 'password', 'createdAt', 'updatedAt', 'dietaryRestrictions'];
+const uneditableKeys = ['_id', 'username', 'password', 'name', 'createdAt', 'updatedAt', 'dietaryRestrictions'];
 const dietaryRestrictions = Object.keys(Restaurant.schema.tree.dietaryRestrictions);
 
 /*
@@ -33,20 +33,29 @@ router.post('/create', async(req, res) => {
     const data = {
       username: body.username,
       password: bcrypt.hashSync(body.password, salt),
+      name: body.name
     };
     const newRestaurant = new Restaurant(data);
     await newRestaurant.save();
 
     res.status(200).send({
-      restaurant: newRestaurant
+      restaurant: newRestaurant,
+      redirectTo: '/restaurant/create'
     });
   } catch (error) {
     res.status(400).send({
-      error
+      error: 'User already exists'
     });
   }
 });
 
+
+router.get('/menu/:id', async(req, res) => {
+  let menu = null;
+  const restaurant = await Restaurant.findById(req.params.id);
+  menu = restaurant.menu;
+  res.status(200).send({ menu });
+});
 /*
   Request Body: {
     location: String,
