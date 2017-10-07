@@ -51,7 +51,8 @@ app.use('/api', limiter);
 
 //========== ROUTES ==========
 app.use('/', require('./routes/index'));
-app.use('/', require('./routes/user'));;
+app.use('/', require('./routes/user'));
+app.use('/api/restaurant', require('./routes/restaurant'));
 
 app.use('*', require('./routes/index'));
 
