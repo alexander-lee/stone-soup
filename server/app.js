@@ -43,9 +43,7 @@ app.use(passport.session());
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
 // Mongo Connect
-mongoose.connect(`mongodb://${credentials.username}:${credentials.password}@${credentials.host}`, {
-  useMongoClient: true
-});
+mongoose.connect(`mongodb://${credentials.username}:${credentials.password}@${credentials.host}`);
 
 // Rate Limiter
 const limiter = new RateLimit({
@@ -58,9 +56,10 @@ app.use('/api', limiter);
 //========== ROUTES ==========
 app.use('/', require('./routes/index'));
 app.use('/', require('./routes/user'));
-app.use('/sms', require('./routes/sms'));
 
+app.use('/sms', require('./routes/sms'));
 app.use('*', require('./routes/index'));
+
 
 // development error handler
 if (app.get('env') === 'development') {
