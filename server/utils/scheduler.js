@@ -5,16 +5,17 @@ const notificationsWorker = require('./message-factory');
 const moment = require('moment');
 
 const schedulerFactory = function(startDate) {
+  const m = moment(startDate, 'HH:mm').subtract(1, 'minutes');
+
   return {
     start: function() {
-      const m = moment(startDate).subtract(1, 'minutes');
-      new CronJob('00 ' + m.getMinutes() + ' ' + m.getHours() + ' * * *', function() {
+      new CronJob('00 ' + m.getMinutes() + ' ' + m.getHours() + ' * * 6', function() {
         console.log('Running Send Notifications Worker for ' +
           moment().format());
         notificationsWorker.run();
-      }, null, true, '');
+      }, null, true, 'America/Los_Angeles');
     },
   };
 };
 
-module.exports = schedulerFactory();
+export default schedulerFactory;

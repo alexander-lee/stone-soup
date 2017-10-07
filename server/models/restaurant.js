@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import twilio from 'twilio';
+import { Client } from '../models';
 
 const twilioSid = process.env.TWILIO_ACCOUNT_SID;
 const twilioAuth = process.env.TWILIO_ACCOUNT_TOKEN;
@@ -73,14 +74,15 @@ Restaurant.statics.sendNotifications = (cb) => {
     function sendNotifications(restaurants) {
         const client = new Twilio(twilioSid, twilioAuth);
         restaurants.forEach((restaurant) => {
-          restaurant.subcribedClients.forEach((subscriberID) => {
+          restaurant.subcribedClients.forEach(async (subscriberID) => {
+            const subscriber = await Client.findOne({ _id: subscriberID });
             const options = {
-                to: subscriber, // fetch subscriber phone # with subscriberID
+                to: subscriber.phoneNumber,
                 from: twilioNum,
                 body: `${restaurant.username} will be having their distribution time in half an hour! TODO ticket generation goes here`
             };
 
-            client.messages.create(options, (err, res) => {
+            client.messages.create(options, (err) => {
               if (err) {
                 console.log(err);
               } else {

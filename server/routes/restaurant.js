@@ -1,6 +1,6 @@
 import express from 'express';
 import bcrypt from 'bcryptjs';
-import { schedulerFactory } from '../utils/scheduler';
+import schedulerFactory from '../utils/scheduler';
 import {
   Restaurant
 } from '../models';
@@ -81,7 +81,8 @@ router.put('/edit/:id', async(req, res) => {
             throw new Error('pickupTimes needs to have intervals with startDate and endDate');
           } else {
             const scheduledAlert = schedulerFactory(interval.startDate);
-            scheduledAlert.start();
+            // scheduledAlert.start();
+            console.log('asdfa');
           }
         }
       }
@@ -102,7 +103,7 @@ router.put('/edit/:id', async(req, res) => {
 
     // Update dietaryRestrictions separately
     if (body.hasOwnProperty('dietaryRestrictions')) {
-      for (let restriction of body.dietaryRestrictions) {
+      for (let restriction in body.dietaryRestrictions) {
         if (!dietaryRestrictions.includes(restriction)) {
           continue;
         }
@@ -113,7 +114,7 @@ router.put('/edit/:id', async(req, res) => {
 
     // restaurant.validate((err) => {
 
-    });
+    // });
 
     await restaurant.save();
 
