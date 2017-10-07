@@ -1,13 +1,19 @@
 'use strict';
 const webpack = require('webpack');
 const path = require('path');
-const debug = process.env.NODE_ENV !== 'production';
+const CircularDependencyPlugin = require('circular-dependency-plugin');
 
+const debug = process.env.NODE_ENV !== 'production';
 const productionPlugins = [
   new webpack.optimize.UglifyJsPlugin()
 ];
 
-module.exports = {
+export default {
+  devServer: {
+    compress: true,
+    port: 3000,
+    historyApiFallback: true
+  },
   entry: [
     path.join(__dirname, 'client', 'app.js')
   ],
@@ -16,47 +22,84 @@ module.exports = {
     filename: 'bundle.js',
     publicPath: '/js/'
   },
-
-  cache: true,
-  debug: debug,
+  resolve: {
+    modules: ['client', 'node_modules']
+  },
+  cache: false,
   devtool: debug ? 'source-map' : null,
-
   stats: {
     colors: true,
     reasons: true
   },
-
   module: {
-    loaders: [
+    rules: [
       {
-        test: /\.(js|jsx)$/,
+        test: /\.(js|jsx|graphql|gql)$/,
         exclude: /node_modules/,
-        loader: 'babel',
-        // query: presets defined in .babelrc
+        use: {
+          loader: 'babel-loader',
+          options: {
+            cacheDirectory: true
+          }
+        }
       },
       {
         test: /\.(scss|sass)$/,
-        loader: 'style!css?modules!sass?outputStyle=expanded'
+        use: [
+          {
+            loader: 'style-loader',
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true
+            }
+          },
+          {
+            loader: 'sass-loader',
+            options: {
+              outputStyle: 'expanded'
+            }
+          }
+        ]
       },
       {
         test: /\.css$/,
-        loader: 'style!css' //Same thing as [style-loader, css-loader]
+        use: [
+          {
+            loader: 'style-loader',
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true
+            }
+          }
+        ]
       },
       {
         test: /\.(png|jpg|woff|woff2|gif)$/,
-        loader:'url-loader?limit=8192&prefix=/'
-      },
-      {
-        test: /\.(json)$/,
-        loader: 'json-loader'
+        use: {
+          loader: 'url-loader',
+          options: {
+            limit: 8192, prefix: '/'
+          }
+        }
       }
     ]
   },
   plugins: [
-    new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.NoErrorsPlugin(),
+    new webpack.NoEmitOnErrorsPlugin(),
+    new webpack.LoaderOptionsPlugin({
+      debug: debug
+    }),
+    new webpack.HotModuleReplacementPlugin(),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+    }),
+    new CircularDependencyPlugin({
+      exclude: /node_modules/,
+      failOnError: true
     }),
     ...!debug && productionPlugins
   ]
