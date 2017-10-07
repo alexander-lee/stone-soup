@@ -2,6 +2,7 @@ import fetcher from '../utils/fetcher';
 
 export const EDIT_MENU_SUCCESS = 'EDIT_MENU_SUCCESS';
 export const EDIT_MENU_ERROR = 'EDIT_MENU_ERROR';
+export const GET_MENU = 'GET_MENU';
 
 export function editMenu(id, menu) {
     return async function(dispatch, getState) {
@@ -15,3 +16,15 @@ export function editMenu(id, menu) {
         }
     }
 }
+
+export const getMenu = (id) => {
+  return async (dispatch, getState) => {
+    const response = await fetcher.get(`/api/restaurant/menu/${id}`);
+    console.log(response);
+
+    dispatch({  
+      type: GET_MENU,
+      menu: response.menu,
+    });
+  };
+};
