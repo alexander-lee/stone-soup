@@ -20,7 +20,7 @@ app.set('views', path.join(__dirname, '..', 'views'));
 app.set('view engine', 'ejs');
 
 //============ EXPRESS ============
-// app.use(favicon(path.join(__dirname, '..', 'public', 'images', 'favicon.ico')));
+app.use(favicon(path.join(__dirname, '..', 'public', 'images', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json()); // parse json
 app.use(bodyParser.urlencoded({ extended: false })); // parse application/x-www-form-urlencoded

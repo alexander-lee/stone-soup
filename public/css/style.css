@@ -1,0 +1,8 @@
+.slick-track {
+  left: -45px;
+}
+
+li.rc-time-picker-panel-select-option-selected {
+  background: #fce4e2;
+  color: #d81f18;
+}
