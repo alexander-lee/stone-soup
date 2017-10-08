@@ -79,9 +79,11 @@ router.post('/register', async (req, res) => {
         // send a message with the nearbyRestaurants (and zipcode) back!
         response = "Here's a list of restaurants that meet your criteria. Please respond with the restaurants that you're interested in subscribing to!\n\n";
         for (let restr in nearbyRestaurants) {
-          req.session.mapping[parseInt(restr) + 1] = nearbyRestaurants[restr]._id;
+          req.session.mapping[parseInt(restr)] = nearbyRestaurants[restr]._id;
           response += ((parseInt(restr) + 1) + `) ${nearbyRestaurants[restr].name}\n` + `(${nearbyRestaurants[restr].location})`);
         }
+
+        console.log(req.session.mapping);
       });
     req.session.state = 'register';
     responder.message(response);
