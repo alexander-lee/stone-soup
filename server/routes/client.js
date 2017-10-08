@@ -33,6 +33,26 @@ router.post('/register', async (req, res) => {
     res.sendStatus(200);
     return;
   }
+  if (req.body.Body.toLowerCase().trim().substring(0, 3) === 'info' && state === 'register') {
+    const arr = req.body.Body.trim().split(' ');
+    if (arr.length > 1) {
+      const options = arr[1].split(',');
+      let reponseString = '';
+      for (let i = 1; i < options.length; ++i) {
+        const restaurantId = req.session.mapping[options[i]];
+        const restr = await Restaurant.findById(restaurantId);
+        responseString += `The food options for ${restr.name} are: \n`;
+        restr.menu.forEach((item, index) => {
+          responseString += `${item.name}: ${item.servings}\n`;
+        });
+        responseString += '\n';
+      }
+      responder.message(responseString);
+      res.writeHead(200, {'Content-Type': 'text/xml'});
+      res.end(responder.toString());
+      return;
+    }
+  }
 
   // branch based off of current state
   if (state === 'unregistered') {
