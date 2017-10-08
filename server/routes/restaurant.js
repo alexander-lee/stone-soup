@@ -159,9 +159,7 @@ router.get('/validate/:restaurantId/:menuItemId/:tokenId', async (req, res) => {
   restaurant.validTickets.splice(restaurant.validTickets.indexOf(req.params.tokenId), 1)
 
   await restaurant.save();
-  res.status(200).send({
-    restaurant
-  });
+  res.redirect(`/success/${encodeURIComponent(restaurant.name)}`);
 });
 
 export default router;

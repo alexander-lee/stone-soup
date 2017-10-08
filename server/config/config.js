@@ -1,11 +1,11 @@
 export default {
   development: {
-    host: 'mongodb://localhost:27017/stonesoup',
+    host: 'localhost',
+    mongo: 'mongodb://localhost:27017/stonesoup',
   },
   production: {
-    host: 'ds036079.mlab.com:36079/stonesoup',
-    username: 'stonesoup',
-    password: 'stonesoup',
+    host: '104.131.156.71',
+    mongo: 'mongodb://mongo/stonesoup',
   },
   cloudinary: {
     cloud_name: 'calhacks2017',

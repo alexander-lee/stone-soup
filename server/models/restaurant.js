@@ -1,13 +1,16 @@
 import mongoose from 'mongoose';
 import twilio from 'twilio';
-import client from '../models/client';
 import shortid from 'shortid';
 import QRCode from 'qrcode';
 import cloudinary from 'cloudinary';
 
+import client from '../models/client';
+import config from '../config/config';
+
 const twilioSid = 'AC8f4cf356a0edfd29bd5195a8a6b6b434';
 const twilioAuth = 'fbe9692575d9ca7f7280b260ab04c321';
 const twilioNum = '+15594613227';
+const credentials = config[process.env.NODE_ENV || 'development'];
 
 const Schema = mongoose.Schema;
 
@@ -43,7 +46,7 @@ Restaurant.statics.sendNotifications = (jobID, cb) => {
 
         const twiml = new twilio(twilioSid, twilioAuth);
 
-        let baseUrl = `https://608381a5.ngrok.io/api/restaurant/validate/${restaurant._id}/`;
+        let baseUrl = `${credentials.host}/api/restaurant/validate/${restaurant._id}/`;
         let menuItems = [];
         restaurant.menu.map((item, index) => {
           for (let i = 0; i < item['servings']; ++i) {
@@ -81,7 +84,7 @@ Restaurant.statics.sendNotifications = (jobID, cb) => {
               const options = {
                   to: subscriber.phoneNumber,
                   from: twilioNum,
-                  body: `${restaurant.name} will be having their distribution time in half an hour!`,
+                  body: `Here is a QR Code that can be used to redeem food at ${restaurant.name}. Come by in the next 30 minutes!`,
                   mediaUrl: imageUrl,
               };
 

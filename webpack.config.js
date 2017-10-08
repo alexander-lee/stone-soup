@@ -8,7 +8,7 @@ const productionPlugins = [
   new webpack.optimize.UglifyJsPlugin()
 ];
 
-export default {
+module.exports = {
   devServer: {
     compress: true,
     port: 3000,
@@ -26,7 +26,7 @@ export default {
     modules: ['client', 'node_modules']
   },
   cache: false,
-  devtool: debug ? 'source-map' : null,
+  devtool: debug ? 'source-map' : false,
   stats: {
     colors: true,
     reasons: true
