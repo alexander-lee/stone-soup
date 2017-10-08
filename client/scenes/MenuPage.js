@@ -27,7 +27,6 @@ class MenuPage extends Component {
   state = {
     isDirty: false,
     menu: this.props.menu,
-    shouldDisplayToast: false,
   };
 
   componentDidMount() {
@@ -49,6 +48,7 @@ class MenuPage extends Component {
     // PUT here
     console.log(`Saving data for ${this.props.userId}`);
     this.props.editMenu(this.props.userId, this.state.menu);
+    this.setState({ isDirty: false });
   };
 
   handleAddClick = () => {
