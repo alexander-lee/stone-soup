@@ -10,7 +10,7 @@ const Navbar = ({ redirectTo }) => {
         className={s.logo}
         onClick={() => redirectTo('/menu')}
       >
-        <img src="images/stonesoup.svg"/>
+        <img src="/images/stonesoup.svg"/>
         <h1>Stone Soup</h1>
       </div>
       <div

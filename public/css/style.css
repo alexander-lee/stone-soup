@@ -1,0 +1,16 @@
+.slick-track {
+  left: -45px;
+}
+
+li.rc-time-picker-panel-select-option-selected {
+  background: #fce4e2;
+  color: #d81f18;
+}
+
+.rc-time-picker-panel-select li:hover {
+  background: #fce4e2;
+}
+
+.rc-time-picker-panel-clear-btn:after {
+  content: "✖";
+}

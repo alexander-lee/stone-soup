@@ -50,7 +50,7 @@ function login(user, req, res, next) {
       if(!err) {
         resolve({
           user: user,
-          redirectTo: '/menu',
+          redirectTo: user.name ? '/menu' : '/restaurant/create',
         });
       }
       else {
