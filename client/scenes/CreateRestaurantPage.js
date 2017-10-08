@@ -75,7 +75,7 @@ class CreateRestaurant extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.editUserSuccess) {
+    if (nextProps.name || nextProps.editUserSuccess) {
       this.props.push('/menu');
     }
   }
@@ -175,6 +175,7 @@ class CreateRestaurant extends Component {
     return (
       <div className={s.container}>
         <div className={s.banner}>
+          <img src="/images/boy.svg" />
           <p>Let's get to know you better!</p>
         </div>
         <div className={s.carousel}>

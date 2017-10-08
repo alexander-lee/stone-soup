@@ -23,12 +23,21 @@
 }
 
 .banner {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: $white;
   padding: 40px 0;
+  overflow: hidden;
   box-shadow: 0 2px 2px 0.5px rgba(0,0,0,0.20);
+
+  img {
+    position: absolute;
+    bottom: -5px;
+    left: 20%;
+    width: 100px;
+  }
 
   p {
     text-align: center;

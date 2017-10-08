@@ -27,7 +27,7 @@ class App extends Component {
 
   render() {
     let body;
-    if (!this.props.user) {
+    if (!this.props.user.id && location.pathname !== '/') {
       body = <div />; // LOADING
     }
     else {

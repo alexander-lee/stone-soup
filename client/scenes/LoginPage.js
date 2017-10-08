@@ -27,7 +27,7 @@ class LoginPage extends Component {
 
   componentDidMount() {
     if(this.props.user.loggedIn) {
-      this.props.dispatch(push('/'));
+      this.props.dispatch(push('/menu'));
     }
   }
 
@@ -47,13 +47,12 @@ class LoginPage extends Component {
   render() {
     const { createUserError, loginUserError } = this.props.user;
     // Do something UI related in both cases
-    console.log(createUserError, loginUserError)
     let message;
     if (createUserError) {
-      message = 'Error creating user!';
+      message = 'This user already exists!';
     }
-    if (this.props.user.loginUserError) {
-      message = 'Invalid credentials!';
+    else if (loginUserError) {
+      message = 'Invalid credentials! Please try again!';
     }
     return (
       <div className={s.container}>
@@ -69,7 +68,7 @@ class LoginPage extends Component {
           <img src="images/landing.jpg" />
           <div className={s.imageContent}>
               <h1>Stone Soup</h1>
-              <p>sticks and stones make good bones.</p>
+              <p>sticks and stones may break my bones, <br /> but soup will never hurt me.</p>
           </div>
         </div>
         <Toast message={message} shouldDisplay={createUserError || loginUserError }/>

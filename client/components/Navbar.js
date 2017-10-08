@@ -15,10 +15,10 @@ const Navbar = ({ redirectTo }) => {
       </div>
       <div
         className={s.navbarItem}
-        onClick={() => redirectTo('/restaurant/tickets')}
+        onClick={() => window.location.href = '/logout'}
       >
-        <i className="fa fa-qrcode" />
-        <p>Generate Tickets </p>
+        <i className="fa fa-sign-out" />
+        <p>Logout</p>
       </div>
     </div>
   )
