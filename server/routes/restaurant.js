@@ -112,10 +112,6 @@ router.put('/edit/:id', async(req, res) => {
       }
     }
 
-    // restaurant.validate((err) => {
-
-    // });
-
     await restaurant.save();
 
     res.status(200).send({
@@ -128,17 +124,42 @@ router.put('/edit/:id', async(req, res) => {
   }
 });
 
-router.get('/token/:restaurantid/:menuid', async(req,res) => {
-  let twiml = new twilio('AC8f4cf356a0edfd29bd5195a8a6b6b434', 'fbe9692575d9ca7f7280b260ab04c321');
+/*
+  Request Body: {
+    restaurantId: Number,
+    menuItemId: Number,
+    tokenId: Number
+  }
+*/
+router.get('/validate/:restaurantId/:menuItemId/:tokenId', async (req, res) => {
+  // get the restaurant corresponding to this restaurantId
+  const restaurant = await Restaurant.findOne({ _id: req.params.restaurantId });
 
-  qrcode.toString(req.params.restaurantid + ':' + req.params.menuid + shortcode('u6l'), (err, url) => {
-    twiml.messages.create({
-      to: '+15104935319',
-      from: '+15594613227',
-      body: 'Follow the MMS link to your qr code meal ticket\n' + url
-    }, (err) => {
-      if (err) console.log(err);
-    })
+  // does tokenId not exist in validTickets?
+  try {
+    if (!restaurant.validTickets.hasOwnProperty(req.params.tokenId)) {
+      throw new Error("Ticket has already been redeemed!");
+    }
+  }
+  catch (error) {
+    res.status(400).send({
+      error: error.toString()
+    });
+  }
+  
+  // decrement number of servings
+  restaurant.numberOfServings -= 1;
+
+  // decrement the number of servings left for this specific menuItem
+  const item = restaurant.menu.filter((food) => food._id == req.params.menuItemId);
+  item[0].servings -= 1;
+
+  // remove token id from validTickets
+  delete restaurant.validTickets[req.params.tokenId];
+
+  await restaurant.save();
+  res.status(200).send({
+    restaurant
   });
 });
 

@@ -13,6 +13,7 @@ const Restaurant = new Schema({
   password: String,
   name: String,
   numberOfServings: Number,
+  validTickets: {},
   menu: [{ name: String, servings: Number }],
   location: String,
   pickupTimes: [{ startDate: String, endDate: String }],
