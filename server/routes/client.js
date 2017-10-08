@@ -125,7 +125,12 @@ router.post('/register', async (req, res) => {
             filteredRestaurants.push(restaurant);
           }
         }
-
+        if (filteredRestaurants.length === 0) {
+          response = "Unfortunately, we were unable to match you with a restaurant that meets your dietary needs. Please check back again tomorrow!";
+          res.writeHead(200, {'Content-Type': 'text/xml'});
+          res.end(responder.toString());
+          return;
+        }
         // send a message with the filteredRestaurants (and zipcode) back!
         response = "Here's a list of restaurants that meet your criteria. Please respond with the restaurants that you're interested in subscribing to!\n\n";
         for (let index in filteredRestaurants) {
