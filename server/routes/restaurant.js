@@ -1,5 +1,9 @@
 import express from 'express';
 import bcrypt from 'bcryptjs';
+import qrcode from 'qrcode';
+import shortcode from 'shortcode';
+import twilio from 'twilio';
+
 import schedulerFactory from '../utils/scheduler';
 import {
   Restaurant
