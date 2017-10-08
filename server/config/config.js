@@ -6,5 +6,10 @@ export default {
     host: 'ds036079.mlab.com:36079/stonesoup',
     username: 'stonesoup',
     password: 'stonesoup',
-  }
+  },
+  cloudinary: {
+    cloud_name: 'calhacks2017',
+    api_key: 219642119669465,
+    api_secret: 'ZlvUbLA1d6FKzMSOpM2D-TH1Xsw',
+  },
 }
