@@ -108,10 +108,6 @@ router.put('/edit/:id', async(req, res) => {
       }
     }
 
-    // restaurant.validate((err) => {
-
-    // });
-
     await restaurant.save();
 
     res.status(200).send({
@@ -122,6 +118,45 @@ router.put('/edit/:id', async(req, res) => {
       error: error.toString()
     });
   }
+});
+
+/*
+  Request Body: {
+    restaurantId: Number,
+    menuItemId: Number,
+    tokenId: Number
+  }
+*/
+router.get('/validate/:restaurantId/:menuItemId/:tokenId', async (req, res) => {
+  // get the restaurant corresponding to this restaurantId
+  const restaurant = await Restaurant.findOne({ _id: req.params.restaurantId });
+
+  // does tokenId not exist in validTickets?
+  try {
+    if (!restaurant.validTickets.hasOwnProperty(req.params.tokenId)) {
+      throw new Error("Ticket has already been redeemed!");
+    }
+  }
+  catch (error) {
+    res.status(400).send({
+      error: error.toString()
+    });
+  }
+  
+  // decrement number of servings
+  restaurant.numberOfServings -= 1;
+
+  // decrement the number of servings left for this specific menuItem
+  const item = restaurant.menu.filter((food) => food._id == req.params.menuItemId);
+  item[0].servings -= 1;
+
+  // remove token id from validTickets
+  delete restaurant.validTickets[req.params.tokenId];
+
+  await restaurant.save();
+  res.status(200).send({
+    restaurant
+  });
 });
 
 export default router;
