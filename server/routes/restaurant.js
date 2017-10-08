@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs';
 import qrcode from 'qrcode';
 import shortcode from 'shortcode';
 import twilio from 'twilio';
+import _ from 'lodash';
 
 import schedulerFactory from '../utils/scheduler';
 import {
@@ -37,7 +38,8 @@ router.post('/create', async(req, res) => {
     const data = {
       username: body.username,
       password: bcrypt.hashSync(body.password, salt),
-      name: body.name
+      name: body.name,
+      validTickets: []
     };
     const newRestaurant = new Restaurant(data);
     await newRestaurant.save();
@@ -97,7 +99,7 @@ router.put('/edit/:id', async(req, res) => {
     const restaurant = await Restaurant.findById(req.params.id);
     for (let key of properties) {
       if (body.hasOwnProperty(key)) {
-        restaurant[key] = body[key];
+        restaurant[key] = _.cloneDeep(body[key]);
       }
     }
 
@@ -133,11 +135,12 @@ router.put('/edit/:id', async(req, res) => {
 */
 router.get('/validate/:restaurantId/:menuItemId/:tokenId', async (req, res) => {
   // get the restaurant corresponding to this restaurantId
-  const restaurant = await Restaurant.findOne({ _id: req.params.restaurantId });
+  const restaurant = await Restaurant.findById(req.params.restaurantId);
 
   // does tokenId not exist in validTickets?
+  console.log(restaurant);
   try {
-    if (!restaurant.validTickets.hasOwnProperty(req.params.tokenId)) {
+    if (!restaurant.validTickets.includes(req.params.tokenId)) {
       throw new Error("Ticket has already been redeemed!");
     }
   }
@@ -146,16 +149,14 @@ router.get('/validate/:restaurantId/:menuItemId/:tokenId', async (req, res) => {
       error: error.toString()
     });
   }
-  
-  // decrement number of servings
-  restaurant.numberOfServings -= 1;
 
   // decrement the number of servings left for this specific menuItem
   const item = restaurant.menu.filter((food) => food._id == req.params.menuItemId);
   item[0].servings -= 1;
 
   // remove token id from validTickets
-  delete restaurant.validTickets[req.params.tokenId];
+  // delete restaurant.validTickets[req.params.tokenId];
+  restaurant.validTickets.splice(restaurant.validTickets.indexOf(req.params.tokenId), 1)
 
   await restaurant.save();
   res.status(200).send({
