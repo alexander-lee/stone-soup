@@ -1,5 +1,10 @@
 import express from 'express';
 import bcrypt from 'bcryptjs';
+import qrcode from 'qrcode';
+import shortcode from 'shortcode';
+import twilio from 'twilio';
+
+import schedulerFactory from '../utils/scheduler';
 import {
   Restaurant
 } from '../models';
@@ -73,10 +78,13 @@ router.put('/edit/:id', async(req, res) => {
         throw new Error('pickupTimes needs to have 7 entries');
       }
 
-      for (let interval of body.pickupTimes) {
-        if (!interval.hasOwnProperty('startDate') || !interval.hasOwnProperty('endDate')) {
+      for (let interval in body.pickupTimes) {
+        if (!body.pickupTimes[interval].hasOwnProperty('startDate') || !body.pickupTimes[interval].hasOwnProperty('endDate')) {
           throw new Error('pickupTimes needs to have intervals with startDate and endDate');
-        }
+        } else {
+      	  const scheduledAlert = schedulerFactory(body.pickupTimes[interval].startDate, interval, req.params.id);
+      	  scheduledAlert.start();
+      	}
       }
     }
     if (body.hasOwnProperty('menu')) {
@@ -114,6 +122,45 @@ router.put('/edit/:id', async(req, res) => {
       error: error.toString()
     });
   }
+});
+
+/*
+  Request Body: {
+    restaurantId: Number,
+    menuItemId: Number,
+    tokenId: Number
+  }
+*/
+router.get('/validate/:restaurantId/:menuItemId/:tokenId', async (req, res) => {
+  // get the restaurant corresponding to this restaurantId
+  const restaurant = await Restaurant.findOne({ _id: req.params.restaurantId });
+
+  // does tokenId not exist in validTickets?
+  try {
+    if (!restaurant.validTickets.hasOwnProperty(req.params.tokenId)) {
+      throw new Error("Ticket has already been redeemed!");
+    }
+  }
+  catch (error) {
+    res.status(400).send({
+      error: error.toString()
+    });
+  }
+  
+  // decrement number of servings
+  restaurant.numberOfServings -= 1;
+
+  // decrement the number of servings left for this specific menuItem
+  const item = restaurant.menu.filter((food) => food._id == req.params.menuItemId);
+  item[0].servings -= 1;
+
+  // remove token id from validTickets
+  delete restaurant.validTickets[req.params.tokenId];
+
+  await restaurant.save();
+  res.status(200).send({
+    restaurant
+  });
 });
 
 export default router;

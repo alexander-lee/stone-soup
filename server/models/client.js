@@ -4,9 +4,11 @@ const Schema = mongoose.Schema;
 const Client = new Schema({
   phoneNumber: String,
   zipcode: String,
+  ticketGiven: Boolean,
   subscribedRestaurants: [Schema.Types.ObjectId]
 }, {
   timestamps: true
 });
 
-export default mongoose.model('Client', Client);
+const client = mongoose.model('Client', Client);
+export default client;

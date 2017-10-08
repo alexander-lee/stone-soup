@@ -6,6 +6,7 @@ import { push } from 'react-router-redux';
 import _ from 'lodash';
 
 import { login, createUser } from '../actions/user-actions';
+import Toast from '../components/Toast';
 
 import s from '../styles/LoginPage.scss';
 
@@ -18,6 +19,10 @@ class LoginPage extends Component {
 
   static defaultProps = {
     createUserError: false
+  };
+
+  state = {
+    isLoggingIn: false,
   };
 
   componentDidMount() {
@@ -35,16 +40,20 @@ class LoginPage extends Component {
   onCreate = () => {
     const username = this.refs.username.value;
     const password = this.refs.password.value;
+
     this.props.dispatch(createUser(username, password));
   };
 
   render() {
+    const { createUserError, loginUserError } = this.props.user;
     // Do something UI related in both cases
-    if (this.props.user.createUserError) {
-      alert('Create User error!');
+    console.log(createUserError, loginUserError)
+    let message;
+    if (createUserError) {
+      message = 'Error creating user!';
     }
     if (this.props.user.loginUserError) {
-      alert('Login error!');
+      message = 'Invalid credentials!';
     }
     return (
       <div className={s.container}>
@@ -63,6 +72,7 @@ class LoginPage extends Component {
               <p>sticks and stones make good bones.</p>
           </div>
         </div>
+        <Toast message={message} shouldDisplay={createUserError || loginUserError }/>
       </div>
     );
   }

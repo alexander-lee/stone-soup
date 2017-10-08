@@ -15,10 +15,10 @@ const Navbar = ({ redirectTo }) => {
       </div>
       <div
         className={s.navbarItem}
-        onClick={() => redirectTo('/restaurant/edit')}
+        onClick={() => redirectTo('/restaurant/tickets')}
       >
-        <i className="fa fa-gear" />
-        <p>Edit Profile </p>
+        <i className="fa fa-qrcode" />
+        <p>Generate Tickets </p>
       </div>
     </div>
   )

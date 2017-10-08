@@ -7,6 +7,7 @@ import _ from 'lodash';
 import Navbar from '../components/Navbar';
 import MenuItem from '../components/MenuItem';
 import SaveButton from '../components/SaveButton';
+import Toast from '../components/Toast';
 
 import { editMenu, getMenu } from '../actions/restaurant-actions.js';
 import s from '../styles/Menu.scss';
@@ -20,6 +21,7 @@ class MenuPage extends Component {
     menu: PropTypes.arrayOf(PropTypes.object),
     editMenu: PropTypes.func.isRequired,
     user: PropTypes.object,
+    isEditSuccessful: PropTypes.bool,
     getMenu: PropTypes.func.isRequired,
   };
 
@@ -50,6 +52,7 @@ class MenuPage extends Component {
     // PUT here
     console.log(`Saving data for ${this.props.user.id}`);
     this.props.editMenu(this.props.user.id, this.state.menu);
+    this.setState({ isDirty: false });
   };
 
   handleAddClick = () => {
@@ -60,7 +63,7 @@ class MenuPage extends Component {
       menu: newItems,
       isDirty: true,
     });
-  }
+  };
 
   handleDeleteClick = (index) => {
     const newItems = [...this.state.menu];
@@ -78,7 +81,7 @@ class MenuPage extends Component {
       menu: newItems,
       isDirty: true,
     });
-  }
+  };
 
   handleServingsEdit = (servings, index) => {
     const newItems = [...this.state.menu];
@@ -87,7 +90,7 @@ class MenuPage extends Component {
       menu: newItems,
       isDirty: true,
     });
-  }
+  };
 
   renderMenuItems = () => {
     const menuItems = this.state.menu.map((item, index) => {
@@ -132,6 +135,10 @@ class MenuPage extends Component {
             handleSaveClick={this.handleSaveClick}
           />
         </div>
+        <Toast
+          message='Success!'
+          shouldDisplay={this.props.isEditSuccessful}
+        />
       </div>
     );
   }
@@ -140,6 +147,7 @@ class MenuPage extends Component {
 const mapStateToProps = (state) => {
   return {
     user: state.app.user,
+    isEditSuccessful: state.app.restaurant.isEditSuccessful,
     menu: state.app.user.menu
   };
 }
