@@ -20,7 +20,15 @@ router.post('/register', async (req, res) => {
   const state = req.session.state ? req.session.state : 'unregistered';
 
   /* EXPERIEMNTAL */
-  if (req.body.Body === 'erase') {
+  if (req.body.Body.toLowerCase() === 'erase') {
+    // Go through restaurants
+    const restaurants = await Restaurant.find({ subscribedClients: req.session.clientId });
+    await restaurants.forEach(async (r) => {
+      console.log('removing from', r._id);
+      r.subscribedClients.splice(r.subscribedClients.indexOf(req.session.clientId), 1);
+      await r.save();
+    });
+
     req.session.destroy();
     console.log('destroyed');
     res.sendStatus(200);
@@ -74,13 +82,34 @@ router.post('/register', async (req, res) => {
           location: { $in: data.zip_codes },
         });
 
+        const filteredRestaurants = [];
+        for (let restaurant of nearbyRestaurants) {
+          let add = true;
+          for (let restriction in restrictions) {
+            if (['vegan', 'glutenfree'].includes(restriction)) {
+              // dietary restrictions
+              if (restrictions[restriction] && !restaurant.dietaryRestrictions[restriction]) {
+                add = false;
+              }
+            }
+            else {
+              // allergies
+              if (restrictions[restriction] && restaurant.dietaryRestrictions[restriction]) {
+                add = false;
+              }
+            }
+          }
 
+          if (add) {
+            filteredRestaurants.push(restaurant);
+          }
+        }
 
-        // send a message with the nearbyRestaurants (and zipcode) back!
+        // send a message with the filteredRestaurants (and zipcode) back!
         response = "Here's a list of restaurants that meet your criteria. Please respond with the restaurants that you're interested in subscribing to!\n\n";
-        for (let restr in nearbyRestaurants) {
-          req.session.mapping[parseInt(restr)] = nearbyRestaurants[restr]._id;
-          response += ((parseInt(restr) + 1) + `) ${nearbyRestaurants[restr].name}\n` + `(${nearbyRestaurants[restr].location})`);
+        for (let index in filteredRestaurants) {
+          req.session.mapping[parseInt(index)] = filteredRestaurants[index]._id;
+          response += ((parseInt(index) + 1) + `) ${filteredRestaurants[index].name}\n` + `(${filteredRestaurants[index].location})`);
         }
 
         console.log(req.session.mapping);
@@ -103,6 +132,7 @@ router.post('/register', async (req, res) => {
 
     // save client to db
     const newClient = new Client(data);
+    req.session.clientId = newClient._id;
     await newClient.save();
 
     // now add this client's _id to each restaurant he/she has subbed to
