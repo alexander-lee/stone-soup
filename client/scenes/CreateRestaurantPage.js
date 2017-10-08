@@ -76,6 +76,8 @@ class CreateRestaurant extends Component {
   // dayOfweek: [0 -> 6], represents index of day of week
   // index: 0 or 1. 0 === start, 1 === end
   handleDateSelection = (value, dayOfWeek, index) => {
+    if (!value) return;
+
     const { pickupTimes } = this.state;
     const newTimes = [...pickupTimes];
     let accessor = index === 0 ? 'startDate' : 'endDate';
