@@ -20,7 +20,7 @@ router.post('/register', async (req, res) => {
   const state = req.session.state ? req.session.state : 'unregistered';
 
   /* EXPERIEMNTAL */
-  if (req.body.Body.toLowerCase() === 'erase') {
+  if (req.body.Body.trim().toLowerCase() === 'erase') {
     // Go through restaurants
     const restaurants = await Restaurant.find({ subscribedClients: req.session.clientId });
     await restaurants.forEach(async (r) => {
@@ -33,15 +33,15 @@ router.post('/register', async (req, res) => {
     res.sendStatus(200);
     return;
   }
-  if (req.body.Body.toLowerCase().trim().substring(0, 3) === 'info' && state === 'register') {
+  if (req.body.Body.trim().toLowerCase().substring(0, 4) === 'info' && state === 'register') {
     const arr = req.body.Body.trim().split(' ');
     if (arr.length > 1) {
       const options = arr[1].split(',');
       let reponseString = '';
-      for (let i = 1; i < options.length; ++i) {
+      for (let i = 0; i < options.length; ++i) {
         const restaurantId = req.session.mapping[options[i]];
         const restr = await Restaurant.findById(restaurantId);
-        responseString += `The food options for ${restr.name} are: \n`;
+        responseString += `The food options for ${restr.name} are:\n`;
         restr.menu.forEach((item, index) => {
           responseString += `${item.name}: ${item.servings}\n`;
         });
