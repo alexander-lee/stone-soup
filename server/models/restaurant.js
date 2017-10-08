@@ -15,8 +15,7 @@ const Restaurant = new Schema({
   username: String,
   password: String,
   name: String,
-  numberOfServings: Number,
-  validTickets: {},
+  validTickets: [ String ],
   menu: [{ name: String, servings: Number }],
   location: String,
   pickupTimes: [{ startDate: String, endDate: String }],
@@ -44,13 +43,14 @@ Restaurant.statics.sendNotifications = (jobID, cb) => {
 
         const twiml = new twilio(twilioSid, twilioAuth);
 
-        let baseUrl = `${window.location.hostname}/api/restaurant/validate/${restaurant._id}/`;
+        let baseUrl = `https://608381a5.ngrok.io/api/restaurant/validate/${restaurant._id}/`;
         let menuItems = [];
         restaurant.menu.map((item, index) => {
           for (let i = 0; i < item['servings']; ++i) {
             menuItems.push(baseUrl+item._id+'/');
           }
         });
+        console.log(menuItems);
 
         // generate a filtered out set of clients
         const filteredClients = await restaurant.subscribedClients.filter(async (unfilteredSubscriberID) => {
@@ -69,11 +69,15 @@ Restaurant.statics.sendNotifications = (jobID, cb) => {
           await subscriber.save();
           // Generate short ID
           const guid = shortid.generate();
+          restaurant.validTickets.push(guid);
+          await restaurant.save();
+          console.log(restaurant);
           const url = menuItems.pop() + guid;
+          console.log(url);
           QRCode.toDataURL(url, (err, base64) => {
             cloudinary.v2.uploader.upload(base64, (err, result) => {
               const imageUrl = result.url;
-
+              console.log(imageUrl);
               const options = {
                   to: subscriber.phoneNumber,
                   from: twilioNum,
@@ -85,6 +89,7 @@ Restaurant.statics.sendNotifications = (jobID, cb) => {
                 if (err) {
                   console.log(err);
                 }
+                console.log('pls res', restaurant)
               });
             });
           });
