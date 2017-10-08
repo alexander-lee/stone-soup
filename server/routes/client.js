@@ -91,6 +91,7 @@ router.post('/register', async (req, res) => {
     const data = {
       phoneNumber: req.body.From,
       zipcode: req.session.zipcode,
+      ticketGiven: false,
       subscribedRestaurants: []
     };
     for (let restr of body) {

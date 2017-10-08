@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const Client = new Schema({
   phoneNumber: String,
   zipcode: String,
+  ticketGiven: Boolean,
   subscribedRestaurants: [Schema.Types.ObjectId]
 }, {
   timestamps: true

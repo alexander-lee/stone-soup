@@ -1,5 +1,9 @@
 import express from 'express';
 import bcrypt from 'bcryptjs';
+import qrcode from 'qrcode';
+import shortcode from 'shortcode';
+import twilio from 'twilio';
+
 import schedulerFactory from '../utils/scheduler';
 import {
   Restaurant
@@ -122,6 +126,20 @@ router.put('/edit/:id', async(req, res) => {
       error: error.toString()
     });
   }
+});
+
+router.get('/token/:restaurantid/:menuid', async(req,res) => {
+  let twiml = new twilio('AC8f4cf356a0edfd29bd5195a8a6b6b434', 'fbe9692575d9ca7f7280b260ab04c321');
+
+  qrcode.toString(req.params.restaurantid + ':' + req.params.menuid + shortcode('u6l'), (err, url) => {
+    twiml.messages.create({
+      to: '+15104935319',
+      from: '+15594613227',
+      body: 'Follow the MMS link to your qr code meal ticket\n' + url
+    }, (err) => {
+      if (err) console.log(err);
+    })
+  });
 });
 
 export default router;

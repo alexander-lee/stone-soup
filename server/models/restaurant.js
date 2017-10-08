@@ -36,17 +36,29 @@ Restaurant.statics.sendNotifications = (jobID, cb) => {
             sendNotifications(restaurant);
         });
 
-    function sendNotifications(restaurant) {
+    async function sendNotifications(restaurant) {
+
         const twiml = new twilio(twilioSid, twilioAuth);
-        restaurant.subscribedClients.forEach(async (subscriberID) => {
+
+        // generate a filtered out set of clients
+        const filteredClients = await restaurant.subscribedClients.filter(async (unfilteredSubscriberID) => {
+          const subscriber = await client.findOne({ _id: unfilteredSubscriberID });
+          return !(subscriber.ticketGiven);
+        });
+
+        await filteredClients.forEach(async (subscriberID) => {
           const subscriber = await client.findOne({ _id: subscriberID });
+          // generate a ticket for this user
+          if (subscriber.ticketGiven) return;
+          subscriber.ticketGiven = true;
+          await subscriber.save();
           const options = {
               to: subscriber.phoneNumber,
               from: twilioNum,
               body: `${restaurant.username} will be having their distribution time in half an hour! TODO ticket generation goes here`
           };
 
-          twiml.messages.create(options, (err) => {
+          twiml.messages.create(options, async (err) => {
             if (err) {
               console.log(err);
             }
