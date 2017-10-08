@@ -12,14 +12,6 @@ cloudinary.config(config['cloudinary']);
 const router = express.Router();
 router.use(session({ secret: 'stone-soup'}));
 
-router.post('/fake', async (req, res) => {
-  const str = 'data:image/png;base64,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';
-  cloudinary.v2.uploader.upload(str, (err, result) => {
-    console.log(result);
-  });
-});
-
-
 router.post('/register', async (req, res) => {
   const responder = new twilio.twiml.MessagingResponse();
 
@@ -58,6 +50,7 @@ router.post('/register', async (req, res) => {
       seafood: false
     };
 
+    // Set restriction hash for current user
     for (let restr of body) {
       // its dirty af, but i had to do this :(
       if (restr === '0') { break; }
@@ -79,13 +72,9 @@ router.post('/register', async (req, res) => {
       .then(async (data) => {
         const nearbyRestaurants = await Restaurant.find({
           location: { $in: data.zip_codes },
-          'dietaryRestrictions.vegan': restrictions.vegan,
-          'dietaryRestrictions.glutenfree': restrictions.glutenfree,
-          'dietaryRestrictions.peanut': restrictions.peanut,
-          'dietaryRestrictions.milk': restrictions.milk,
-          'dietaryRestrictions.egg': restrictions.egg,
-          'dietaryRestrictions.seafood': restrictions.seafood
         });
+
+
 
         // send a message with the nearbyRestaurants (and zipcode) back!
         response = "Here's a list of restaurants that meet your criteria. Please respond with the restaurants that you're interested in subscribing to!\n\n";
