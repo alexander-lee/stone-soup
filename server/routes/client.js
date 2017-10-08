@@ -32,6 +32,7 @@ router.post('/register', async (req, res) => {
     req.session.destroy();
     console.log('destroyed');
     res.sendStatus(200);
+    return;
   }
 
   // branch based off of current state
