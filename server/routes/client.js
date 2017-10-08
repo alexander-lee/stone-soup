@@ -20,7 +20,7 @@ router.post('/register', async (req, res) => {
   const state = req.session.state ? req.session.state : 'unregistered';
 
   /* EXPERIEMNTAL */
-  if (req.body.Body.toLowerCase() === 'erase') {
+  if (req.body.Body.trim().toLowerCase() === 'erase') {
     // Go through restaurants
     const restaurants = await Restaurant.find({ subscribedClients: req.session.clientId });
     await restaurants.forEach(async (r) => {
@@ -32,6 +32,26 @@ router.post('/register', async (req, res) => {
     console.log('destroyed');
     res.sendStatus(200);
     return;
+  }
+  if (req.body.Body.trim().toLowerCase().substring(0, 4) === 'info' && state === 'register') {
+    const arr = req.body.Body.trim().split(' ');
+    if (arr.length > 1) {
+      const options = arr[1].split(',');
+      let reponseString = '';
+      for (let i = 0; i < options.length; ++i) {
+        const restaurantId = req.session.mapping[options[i]];
+        const restr = await Restaurant.findById(restaurantId);
+        responseString += `The food options for ${restr.name} are:\n`;
+        restr.menu.forEach((item, index) => {
+          responseString += `${item.name}: ${item.servings}\n`;
+        });
+        responseString += '\n';
+      }
+      responder.message(responseString);
+      res.writeHead(200, {'Content-Type': 'text/xml'});
+      res.end(responder.toString());
+      return;
+    }
   }
 
   // branch based off of current state
@@ -105,7 +125,12 @@ router.post('/register', async (req, res) => {
             filteredRestaurants.push(restaurant);
           }
         }
-
+        if (filteredRestaurants.length === 0) {
+          response = "Unfortunately, we were unable to match you with a restaurant that meets your dietary needs. Please check back again tomorrow!";
+          res.writeHead(200, {'Content-Type': 'text/xml'});
+          res.end(responder.toString());
+          return;
+        }
         // send a message with the filteredRestaurants (and zipcode) back!
         response = "Here's a list of restaurants that meet your criteria. Please respond with the restaurants that you're interested in subscribing to!\n\n";
         for (let index in filteredRestaurants) {
