@@ -46,7 +46,11 @@ Restaurant.statics.sendNotifications = (jobID, cb) => {
 
         const twiml = new twilio(twilioSid, twilioAuth);
 
+<<<<<<< HEAD
         let baseUrl = `${credentials.host}/api/restaurant/validate/${restaurant._id}/`;
+=======
+        let baseUrl = `http://104.131.156.71/api/restaurant/validate/${restaurant._id}/`;
+>>>>>>> 121f78c92d13315575769a0f2ceb19ea6b24a655
         let menuItems = [];
         restaurant.menu.map((item, index) => {
           for (let i = 0; i < item['servings']; ++i) {
