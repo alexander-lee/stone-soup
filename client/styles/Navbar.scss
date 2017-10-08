@@ -2,7 +2,7 @@
 
 .navbar {
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
   height: 50px;
   background-color: $dark-red;
@@ -14,6 +14,7 @@
   justify-content: space-around;
   padding: 10px;
   color: $white;
+  letter-spacing: 1.2px;
 
   &:hover {
     cursor: pointer;
@@ -38,6 +39,7 @@
   padding: 0 10px 0 0;
   border-radius: 3px;
   transform: rotateX(10deg) rotateY(-10deg);
+  z-index: 100;
 
   h1 {
     margin: 10px 5px 10px 0;

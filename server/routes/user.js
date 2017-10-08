@@ -1,5 +1,5 @@
 import express from 'express';
-import { User } from '../models';
+import { Restaurant } from '../models';
 
 const router = express.Router();
 
@@ -8,7 +8,7 @@ router.get('/api/user', async function(req, res) {
 
   if(req.isAuthenticated() && req.session.hasOwnProperty('passport')) {
     const userId = req.session.passport.user;
-    user = await User.findById(userId);
+    user = await Restaurant.findById(userId);
   }
 
   res.status(200).send({

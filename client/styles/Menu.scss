@@ -2,7 +2,8 @@
 
 .container {
   background-color: darken($white, 10%);
-  height: 100vh;
+  min-height: 100vh;
+  height: 100%;
 }
 
 .banner {
@@ -123,7 +124,7 @@
 .saveButton {
   width: 200px;
   height: 40px;
-  margin: 0 auto;
+  margin: 0 auto 40px;
   letter-spacing: 1.5px;
   text-align: center;
   border: none;

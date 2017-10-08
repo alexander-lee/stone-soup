@@ -10,15 +10,15 @@ const Navbar = ({ redirectTo }) => {
         className={s.logo}
         onClick={() => redirectTo('/menu')}
       >
-        <img src="images/stonesoup.svg"/>
+        <img src="/images/stonesoup.svg"/>
         <h1>Stone Soup</h1>
       </div>
       <div
         className={s.navbarItem}
-        onClick={() => redirectTo('/restaurant/tickets')}
+        onClick={() => window.location.href = '/logout'}
       >
-        <i className="fa fa-qrcode" />
-        <p>Generate Tickets </p>
+        <i className="fa fa-sign-out" />
+        <p>Logout</p>
       </div>
     </div>
   )

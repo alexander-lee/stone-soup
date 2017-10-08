@@ -47,13 +47,16 @@ export default function(state = initialState, action) {
     case CREATE_USER_SUCCESS:
       return {
         ...state,
+        ...action.restaurant,
         createUserError: false,
-        user: action.restaurant,
+        id: action.restaurant._id
       };
     case EDIT_USER_SUCCESS:
       return {
         ...state,
+        ...action.restaurant,
         editUserSuccess: true,
+        id: action.restaurant._id
       };
     case EDIT_USER_ERROR:
       return {

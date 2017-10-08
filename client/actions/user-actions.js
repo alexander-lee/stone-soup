@@ -16,15 +16,15 @@ export const EDIT_USER_ERROR = 'EDIT_USER_ERROR';
 
 export function getUser() {
   return async function(dispatch, getState) {
-    const user = Cookies.get('user');
+    const body = await fetcher.get(`/api/user`);
 
-    if (user) {
+    if (body.user) {
       const location = Cookies.get('location');
       Cookies.expire('location');
 
       dispatch({
         type: GET_USER,
-        user: JSON.parse(user)
+        user: body.user
       });
 
       if(location) {
@@ -52,8 +52,6 @@ export function login(username, password) {
         error: response.error,
       });
     } else {
-      Cookies.expire('user');
-      Cookies.set('user', JSON.stringify(response.user), { expires: 3600 });
       dispatch({
         type: LOGIN_USER_SUCCESS,
         restaurant: response.user,
@@ -108,5 +106,3 @@ export const editUser = (userId, location, name, pickupTimes, dietaryRestriction
     }
   }
 }
-
-

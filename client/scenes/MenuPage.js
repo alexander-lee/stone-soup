@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux'
+import { push } from 'react-router-redux';
 import _ from 'lodash';
 
 import Navbar from '../components/Navbar';
@@ -19,8 +20,8 @@ class MenuPage extends Component {
   static propTypes = {
     menu: PropTypes.arrayOf(PropTypes.object),
     editMenu: PropTypes.func.isRequired,
+    user: PropTypes.object,
     isEditSuccessful: PropTypes.bool,
-    userId: PropTypes.string,
     getMenu: PropTypes.func.isRequired,
   };
 
@@ -30,14 +31,17 @@ class MenuPage extends Component {
   };
 
   componentDidMount() {
-    if (this.props.userId) {
-      this.props.getMenu(this.props.userId);
+    if (!this.props.user.name) {
+      this.props.push('/restaurant/create');
+    }
+    else if (this.props.user.id) {
+      this.props.getMenu(this.props.user.id);
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (!this.props.userId && nextProps.userId) {
-      this.props.getMenu(nextProps.userId);
+    if (!this.props.user.id && nextProps.user.id) {
+      this.props.getMenu(nextProps.user.id);
     }
     if (!_.isEqual(this.props.menu, nextProps.menu)) {
       this.setState({ menu: nextProps.menu });
@@ -46,9 +50,11 @@ class MenuPage extends Component {
 
   handleSaveClick = () => {
     // PUT here
-    console.log(`Saving data for ${this.props.userId}`);
-    this.props.editMenu(this.props.userId, this.state.menu);
-    this.setState({ isDirty: false });
+    console.log(`Saving data for ${this.props.user.id}`);
+    this.setState(
+      { isDirty: false },
+      this.props.editMenu(this.props.user.id, this.state.menu)
+    );
   };
 
   handleAddClick = () => {
@@ -132,8 +138,8 @@ class MenuPage extends Component {
           />
         </div>
         <Toast
-          message='Success!'
-          shouldDisplay={this.props.isEditSuccessful}
+          message='Menu Saved!'
+          shouldDisplay={this.props.isEditSuccessful && !this.state.isDirty}
         />
       </div>
     );
@@ -142,9 +148,9 @@ class MenuPage extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    user: state.app.user,
+    menu: state.app.user.menu,
     isEditSuccessful: state.app.restaurant.isEditSuccessful,
-    userId: state.app.user.id,
-    menu: state.app.user.menu
   };
 }
 
@@ -155,6 +161,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     getMenu: (id) => {
       dispatch(getMenu(id));
+    },
+    push: (url) => {
+      dispatch(push(url));
     }
   };
 }
