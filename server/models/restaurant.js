@@ -43,7 +43,7 @@ Restaurant.statics.sendNotifications = (jobID, cb) => {
 
         const twiml = new twilio(twilioSid, twilioAuth);
 
-        let baseUrl = `https://608381a5.ngrok.io/api/restaurant/validate/${restaurant._id}/`;
+        let baseUrl = `http://104.131.156.71/api/restaurant/validate/${restaurant._id}/`;
         let menuItems = [];
         restaurant.menu.map((item, index) => {
           for (let i = 0; i < item['servings']; ++i) {
