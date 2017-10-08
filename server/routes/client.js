@@ -37,7 +37,7 @@ router.post('/register', async (req, res) => {
     const arr = req.body.Body.trim().split(' ');
     if (arr.length > 1) {
       const options = arr[1].split(',');
-      let reponseString = '';
+      let responseString = '';
       for (let i = 0; i < options.length; ++i) {
         const restaurantId = req.session.mapping[options[i]];
         const restr = await Restaurant.findById(restaurantId);
@@ -127,15 +127,16 @@ router.post('/register', async (req, res) => {
         }
         if (filteredRestaurants.length === 0) {
           response = "Unfortunately, we were unable to match you with a restaurant that meets your dietary needs. Please check back again tomorrow!";
+          responder.message(response);
           res.writeHead(200, {'Content-Type': 'text/xml'});
           res.end(responder.toString());
           return;
         }
         // send a message with the filteredRestaurants (and zipcode) back!
-        response = "Here's a list of restaurants that meet your criteria. Please respond with the restaurants that you're interested in subscribing to!\n\n";
+        response = "Here's a list of restaurants that meet your criteria.\nType 'info 1,2,..' for menu information.\nPlease respond with the restaurants that you're interested in subscribing to!\n\n";
         for (let index in filteredRestaurants) {
           req.session.mapping[parseInt(index)] = filteredRestaurants[index]._id;
-          response += ((parseInt(index) + 1) + `) ${filteredRestaurants[index].name}\n` + `(${filteredRestaurants[index].location})\n`);
+          response += ((parseInt(index) + 1) + `) ${filteredRestaurants[index].name} (${filteredRestaurants[index].location})\n`);
         }
 
       });
