@@ -31,7 +31,6 @@ class MenuPage extends Component {
   };
 
   componentDidMount() {
-    console.log(this.props);
     if (!this.props.user.name) {
       this.props.push('/restaurant/create');
     }
