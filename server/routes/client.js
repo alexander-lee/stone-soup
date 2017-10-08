@@ -24,7 +24,6 @@ router.post('/register', async (req, res) => {
     // Go through restaurants
     const restaurants = await Restaurant.find({ subscribedClients: req.session.clientId });
     await restaurants.forEach(async (r) => {
-      console.log('removing from', r._id);
       r.subscribedClients.splice(r.subscribedClients.indexOf(req.session.clientId), 1);
       await r.save();
     });
@@ -74,7 +73,7 @@ router.post('/register', async (req, res) => {
     // find restaurants that meet the user's criteria
     let response = '';
     req.session.mapping = {};
-    await fetch(`https://www.zipcodeapi.com/rest/XqLRqZCjj25C2WlIMG4hWxFzbvBzZjIWJuOatqtNtzqwvLeirjznRfW2KyBKRkHB/radius.json/${req.session.zipcode}/5/km?minimal`)
+    await fetch(`https://www.zipcodeapi.com/rest/uKNbwxe3T8HdDiW2XCb4JxV6IsnWBid520hzyvCrEkEhCBkzdvEX3z3L1qIDJVJL/radius.json/${req.session.zipcode}/5/km?minimal`)
       .then((response) => {
         return response.json();
       })
@@ -82,6 +81,7 @@ router.post('/register', async (req, res) => {
         const nearbyRestaurants = await Restaurant.find({
           location: { $in: data.zip_codes },
         });
+
 
         const filteredRestaurants = [];
         for (let restaurant of nearbyRestaurants) {
@@ -110,10 +110,9 @@ router.post('/register', async (req, res) => {
         response = "Here's a list of restaurants that meet your criteria. Please respond with the restaurants that you're interested in subscribing to!\n\n";
         for (let index in filteredRestaurants) {
           req.session.mapping[parseInt(index)] = filteredRestaurants[index]._id;
-          response += ((parseInt(index) + 1) + `) ${filteredRestaurants[index].name}\n` + `(${filteredRestaurants[index].location})`);
+          response += ((parseInt(index) + 1) + `) ${filteredRestaurants[index].name}\n` + `(${filteredRestaurants[index].location})\n`);
         }
 
-        console.log(req.session.mapping);
       });
     req.session.state = 'register';
     responder.message(response);
