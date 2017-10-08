@@ -67,6 +67,13 @@ class CreateRestaurant extends Component {
     'Seafood': 'seafood'
   }
 
+  componentDidMount() {
+    // Means a restaurant was already initialized
+    if (this.props.name) {
+      this.props.push('/menu');
+    }
+  }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.editUserSuccess) {
       this.props.push('/menu');
@@ -87,13 +94,13 @@ class CreateRestaurant extends Component {
 
   handleChange = (e, inputField) => {
     this.setState({
-      inputField: e.target.value,
+      [inputField]: e.target.value,
     });
   };
 
   handleSubmit = () => {
     const { location, name, pickupTimes, dietaryRestrictions } = this.state;
-    const id = this.props.user.id;
+    const id = this.props.id;
     this.props.editUser(id, location, name, pickupTimes, dietaryRestrictions);
   };
 

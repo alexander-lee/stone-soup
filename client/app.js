@@ -17,7 +17,6 @@ ReactDOM.render(
       <Route path="/" component={App}>
         <IndexRoute component={LoginPage} />
         <Route path="/menu" component={MenuPage} />
-        <Route path="/restaurant/edit" component={EditRestaurantPage}/>
         <Route path="/restaurant/create" component={CreateRestaurantPage}/>
       </Route>
       <Route path="*" component={ErrorPage} />
