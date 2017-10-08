@@ -31,6 +31,7 @@ class MenuPage extends Component {
   };
 
   componentDidMount() {
+    console.log(this.props);
     if (!this.props.user.name) {
       this.props.push('/restaurant/create');
     }
@@ -51,8 +52,10 @@ class MenuPage extends Component {
   handleSaveClick = () => {
     // PUT here
     console.log(`Saving data for ${this.props.user.id}`);
-    this.props.editMenu(this.props.user.id, this.state.menu);
-    this.setState({ isDirty: false });
+    this.setState(
+      { isDirty: false },
+      this.props.editMenu(this.props.user.id, this.state.menu)
+    );
   };
 
   handleAddClick = () => {
@@ -136,8 +139,8 @@ class MenuPage extends Component {
           />
         </div>
         <Toast
-          message='Success!'
-          shouldDisplay={this.props.isEditSuccessful}
+          message='Menu Saved!'
+          shouldDisplay={this.props.isEditSuccessful && !this.state.isDirty}
         />
       </div>
     );
@@ -147,8 +150,8 @@ class MenuPage extends Component {
 const mapStateToProps = (state) => {
   return {
     user: state.app.user,
+    menu: state.app.user.menu,
     isEditSuccessful: state.app.restaurant.isEditSuccessful,
-    menu: state.app.user.menu
   };
 }
 
