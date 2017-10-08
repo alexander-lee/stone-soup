@@ -6,6 +6,7 @@ import _ from 'lodash';
 import Navbar from '../components/Navbar';
 import MenuItem from '../components/MenuItem';
 import SaveButton from '../components/SaveButton';
+import Toast from '../components/Toast';
 
 import { editMenu, getMenu } from '../actions/restaurant-actions.js';
 import s from '../styles/Menu.scss';
@@ -18,6 +19,7 @@ class MenuPage extends Component {
   static propTypes = {
     menu: PropTypes.arrayOf(PropTypes.object),
     editMenu: PropTypes.func.isRequired,
+    isEditSuccessful: PropTypes.bool,
     userId: PropTypes.string,
     getMenu: PropTypes.func.isRequired,
   };
@@ -25,6 +27,7 @@ class MenuPage extends Component {
   state = {
     isDirty: false,
     menu: this.props.menu,
+    shouldDisplayToast: false,
   };
 
   componentDidMount() {
@@ -56,7 +59,7 @@ class MenuPage extends Component {
       menu: newItems,
       isDirty: true,
     });
-  }
+  };
 
   handleDeleteClick = (index) => {
     const newItems = [...this.state.menu];
@@ -74,7 +77,7 @@ class MenuPage extends Component {
       menu: newItems,
       isDirty: true,
     });
-  }
+  };
 
   handleServingsEdit = (servings, index) => {
     const newItems = [...this.state.menu];
@@ -83,7 +86,7 @@ class MenuPage extends Component {
       menu: newItems,
       isDirty: true,
     });
-  }
+  };
 
   renderMenuItems = () => {
     const menuItems = this.state.menu.map((item, index) => {
@@ -128,6 +131,10 @@ class MenuPage extends Component {
             handleSaveClick={this.handleSaveClick}
           />
         </div>
+        <Toast
+          message='Success!'
+          shouldDisplay={this.props.isEditSuccessful}
+        />
       </div>
     );
   }
@@ -135,6 +142,7 @@ class MenuPage extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    isEditSuccessful: state.app.restaurant.isEditSuccessful,
     userId: state.app.user.id,
     menu: state.app.user.menu
   };
